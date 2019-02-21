@@ -1,0 +1,8 @@
+D:\Projects\chatRoubette\Models\bin\Debug\netcoreapp2.2\Models.deps.json
+D:\Projects\chatRoubette\Models\bin\Debug\netcoreapp2.2\Models.dll
+D:\Projects\chatRoubette\Models\bin\Debug\netcoreapp2.2\Models.pdb
+D:\Projects\chatRoubette\Models\obj\Debug\netcoreapp2.2\Models.csproj.CoreCompileInputs.cache
+D:\Projects\chatRoubette\Models\obj\Debug\netcoreapp2.2\Models.AssemblyInfoInputs.cache
+D:\Projects\chatRoubette\Models\obj\Debug\netcoreapp2.2\Models.AssemblyInfo.cs
+D:\Projects\chatRoubette\Models\obj\Debug\netcoreapp2.2\Models.dll
+D:\Projects\chatRoubette\Models\obj\Debug\netcoreapp2.2\Models.pdb
