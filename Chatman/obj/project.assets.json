@@ -692,11 +692,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\chatRoubette\\Models\\Models.csproj",
-      "projectName": "Models",
-      "projectPath": "D:\\Projects\\chatRoubette\\Models\\Models.csproj",
+      "projectUniqueName": "D:\\Projects\\ChatRoubette\\Chatman\\Chatman.csproj",
+      "projectName": "Chatman",
+      "projectPath": "D:\\Projects\\ChatRoubette\\Chatman\\Chatman.csproj",
       "packagesPath": "C:\\Users\\StanimirVenkov\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\chatRoubette\\Models\\obj\\",
+      "outputPath": "D:\\Projects\\ChatRoubette\\Chatman\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

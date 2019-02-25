@@ -4733,14 +4733,14 @@
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
       },
-      "Models/1.0.0": {
+      "Chatman/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.2",
         "compile": {
-          "bin/placeholder/Models.dll": {}
+          "bin/placeholder/Chatman.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Models.dll": {}
+          "bin/placeholder/Chatman.dll": {}
         }
       }
     }
@@ -12967,20 +12967,20 @@
         "system.xml.xpath.xdocument.nuspec"
       ]
     },
-    "Models/1.0.0": {
+    "Chatman/1.0.0": {
       "type": "project",
-      "path": "../Models/Models.csproj",
-      "msbuildProject": "../Models/Models.csproj"
+      "path": "../Chatman/Chatman.csproj",
+      "msbuildProject": "../Chatman/Chatman.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
+      "Chatman >= 1.0.0",
       "LocalStorage >= 2.0.0-beta-2",
       "Microsoft.AspNetCore.App >= 2.2.0",
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
       "Microsoft.NETCore.App >= 2.2.0",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.2.0",
-      "Models >= 1.0.0"
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.2.0"
     ]
   },
   "packageFolders": {
@@ -12990,11 +12990,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\chatRoubette\\Client\\Client.csproj",
+      "projectUniqueName": "D:\\Projects\\ChatRoubette\\Client\\Client.csproj",
       "projectName": "Client",
-      "projectPath": "D:\\Projects\\chatRoubette\\Client\\Client.csproj",
+      "projectPath": "D:\\Projects\\ChatRoubette\\Client\\Client.csproj",
       "packagesPath": "C:\\Users\\StanimirVenkov\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\chatRoubette\\Client\\obj\\",
+      "outputPath": "D:\\Projects\\ChatRoubette\\Client\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -13013,8 +13013,8 @@
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
-            "D:\\Projects\\chatRoubette\\Models\\Models.csproj": {
-              "projectPath": "D:\\Projects\\chatRoubette\\Models\\Models.csproj"
+            "D:\\Projects\\ChatRoubette\\Chatman\\Chatman.csproj": {
+              "projectPath": "D:\\Projects\\ChatRoubette\\Chatman\\Chatman.csproj"
             }
           }
         }

@@ -15,7 +15,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Chatman\Chatman.csproj" />
   </ItemGroup>
 
 </Project>

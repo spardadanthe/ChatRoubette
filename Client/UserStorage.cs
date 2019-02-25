@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Hanssens.Net;
-using Models;
+using Chatman;
 
 namespace Client
 {
