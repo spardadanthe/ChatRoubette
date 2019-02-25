@@ -14,7 +14,11 @@ namespace Chatman
             Current = new List<Conversation>();
         }
 
+<<<<<<< HEAD
+        public string Username { get; private set; }
+=======
         public string Username { get; private set; } 
+>>>>>>> 8e886be2c6880c2481b90b3db83823fdf7adb16e
         public List<User> Friends { get; set; }
         public List<Conversation> Current { get; set; }
 
@@ -25,6 +29,12 @@ namespace Chatman
 
         public void AddFriend(User user)
         {
+<<<<<<< HEAD
+            Friends.Add(user);
+        }
+    }
+}
+=======
             if (user is null)
             {
                 throw new ArgumentNullException("The user cannot be null");
@@ -33,3 +43,4 @@ namespace Chatman
         }
     }
 }
+>>>>>>> 8e886be2c6880c2481b90b3db83823fdf7adb16e
