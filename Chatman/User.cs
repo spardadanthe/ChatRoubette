@@ -10,6 +10,8 @@ namespace Chatman
         {
             if (string.IsNullOrEmpty(username)) throw new ArgumentException("Username cannot  be null ot empty");
             Username = username;
+            Friends = new List<User>();
+            Current = new List<Conversation>();
         }
 
         public string Username { get; private set; } 
@@ -23,6 +25,10 @@ namespace Chatman
 
         public void AddFriend(User user)
         {
+            if (user is null)
+            {
+                throw new ArgumentNullException("The user cannot be null");
+            }
             Friends.Add(user);
         }
     }

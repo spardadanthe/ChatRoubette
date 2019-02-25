@@ -10,7 +10,7 @@ namespace ChatApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ConversationController : ControllerBase
+    public class ConversationsController : ControllerBase
     {
         public static List<Conversation> Conversations = new List<Conversation>();
         // GET: api/Conversation
