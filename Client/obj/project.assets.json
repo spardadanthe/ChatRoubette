@@ -12990,11 +12990,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\ChatRoubette\\Client\\Client.csproj",
+      "projectUniqueName": "D:\\Projects\\chatRoubette\\Client\\Client.csproj",
       "projectName": "Client",
-      "projectPath": "D:\\Projects\\ChatRoubette\\Client\\Client.csproj",
+      "projectPath": "D:\\Projects\\chatRoubette\\Client\\Client.csproj",
       "packagesPath": "C:\\Users\\StanimirVenkov\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\ChatRoubette\\Client\\obj\\",
+      "outputPath": "D:\\Projects\\chatRoubette\\Client\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -13013,8 +13013,8 @@
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
-            "D:\\Projects\\ChatRoubette\\Chatman\\Chatman.csproj": {
-              "projectPath": "D:\\Projects\\ChatRoubette\\Chatman\\Chatman.csproj"
+            "D:\\Projects\\chatRoubette\\Chatman\\Chatman.csproj": {
+              "projectPath": "D:\\Projects\\chatRoubette\\Chatman\\Chatman.csproj"
             }
           }
         }

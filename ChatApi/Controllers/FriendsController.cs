@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Chatman;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,7 +13,7 @@ namespace ChatApi.Controllers
     [ApiController]
     public class FriendsController : ControllerBase
     {
-        public static List<User> Friends = new List<User>();
+        public static HashSet<User> Friends = new HashSet<User>();
 
         // GET: api/Friends
         [HttpGet]
@@ -25,9 +26,6 @@ namespace ChatApi.Controllers
         [HttpGet("{name}", Name = "Get")]
         public User Get(string name)
         {
-            //User user = new User("vanko");
-            //user.AddFriend(new User("vanko"));
-            //Friends.Add(user);
             return Friends.SingleOrDefault(x => x.Username == name);
         }
 
@@ -35,7 +33,7 @@ namespace ChatApi.Controllers
         [HttpPost]
         public void Post([FromBody] User friend)
         {
-            Friends.Add(friend);
+            if (!Friends.Any(user => user.Username == friend.Username)) Friends.Add(friend);
         }
         
         // DELETE: api/ApiWithActions/5

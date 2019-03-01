@@ -9,26 +9,22 @@ namespace Chatman
         public User(string username)
         {
             if (string.IsNullOrEmpty(username)) throw new ArgumentException("Username cannot  be null ot empty");
+
+            Id = new UserId(Guid.NewGuid().ToString());
             Username = username;
-            Friends = new List<User>();
-            Current = new List<Conversation>();
+            Friends = new HashSet<User>();
+            ConversationIds = new HashSet<ConversationId>();
         }
 
-        public string Username { get; private set; } 
-        public List<User> Friends { get; set; }
-        public List<Conversation> Current { get; set; }
-
-        public void SendMessage(IMessageHandler messageSender)
-        {
-            messageSender.Send();
-        }
+        public UserId Id { get; private set; }
+        public string Username { get; private set; }
+        public HashSet<User> Friends { get; private set; }
+        public HashSet<ConversationId> ConversationIds { get; private set; }
 
         public void AddFriend(User user)
         {
-            if (user is null)
-            {
-                throw new ArgumentNullException("The user cannot be null");
-            }
+            if (user is null) throw new ArgumentNullException(nameof(user));
+
             Friends.Add(user);
         }
     }

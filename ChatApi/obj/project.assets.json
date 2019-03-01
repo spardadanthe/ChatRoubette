@@ -12953,6 +12953,7 @@
     ".NETCoreApp,Version=v2.2": [
       "Chatman >= 1.0.0",
       "Microsoft.AspNetCore.App >= 2.2.0",
+      "Microsoft.AspNetCore.Cors >= 2.2.0",
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
       "Microsoft.NETCore.App >= 2.2.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.2.0"
@@ -12965,11 +12966,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Projects\\ChatRoubette\\ChatApi\\ChatApi.csproj",
+      "projectUniqueName": "D:\\Projects\\chatRoubette\\ChatApi\\ChatApi.csproj",
       "projectName": "ChatApi",
-      "projectPath": "D:\\Projects\\ChatRoubette\\ChatApi\\ChatApi.csproj",
+      "projectPath": "D:\\Projects\\chatRoubette\\ChatApi\\ChatApi.csproj",
       "packagesPath": "C:\\Users\\StanimirVenkov\\.nuget\\packages\\",
-      "outputPath": "D:\\Projects\\ChatRoubette\\ChatApi\\obj\\",
+      "outputPath": "D:\\Projects\\chatRoubette\\ChatApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -12988,8 +12989,8 @@
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
-            "D:\\Projects\\ChatRoubette\\Chatman\\Chatman.csproj": {
-              "projectPath": "D:\\Projects\\ChatRoubette\\Chatman\\Chatman.csproj"
+            "D:\\Projects\\chatRoubette\\Chatman\\Chatman.csproj": {
+              "projectPath": "D:\\Projects\\chatRoubette\\Chatman\\Chatman.csproj"
             }
           }
         }
@@ -13008,6 +13009,10 @@
             "target": "Package",
             "version": "[2.2.0, )",
             "autoReferenced": true
+          },
+          "Microsoft.AspNetCore.Cors": {
+            "target": "Package",
+            "version": "[2.2.0, )"
           },
           "Microsoft.AspNetCore.Razor.Design": {
             "suppressParent": "All",

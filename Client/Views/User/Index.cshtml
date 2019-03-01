@@ -1,12 +1,70 @@
-﻿@Model chatRoubette.Models.User
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <h1>@Model.Username</h1>
+    <h1 class="display-4">Welcome @Model.Username</h1>
 </div>
+<div class="text-center">
+    @using (Html.BeginForm("AddFriend", "User", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <input type="text" name="friendName" required />
+        <input type="submit" value="Add Friend" class="btn btn-success btn-lg" />
+    }
+    <br>
+
+    @using (Html.BeginForm("AddToConversation", "User", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <select style="width: 30%;"name="conversationId" id="convList" multiple>
+        </select>
+        <br />
+        <input type="submit" value="Add Conversation" class="btn btn-success btn-lg" />
+    }
+    <br>
+    <input type="button" value="Start Conversation" onclick="location.href='@Url.Action("StartConversation", "User")'" />
+</div>
+<div class="text-left">
+    <h1>Friends</h1>
+    <div id="placer"></div>
+
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        loadData();
+    });
+
+    function loadData() {
+        $.ajax({
+            contentType: "application/json",
+            type: "GET",
+            url: "https://localhost:44385/api/Friends",
+            success: function (result) {
+                $("#placer").html("");
+                var select = document.getElementById("convList");
+                select.innerHTML = "";
+                for (var i = 0; i < result.length; i++) {
+                    var option = document.createElement("option");
+                    option.value = result[i]["id"]["value"];
+                    option.text = result[i]["username"];
+                    select.appendChild(option);
+                }
+                //setTimeout(function () {
+                //    loadData();
+                //},1000);
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+    }
+</script>
+
+
+
 
 

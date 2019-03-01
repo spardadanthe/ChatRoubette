@@ -4,13 +4,18 @@ namespace Chatman
 {
     public class Message
     {
-        public Message()
+        public Message(User sender, string text,int conversationId)
         {
-            Date  = DateTime.Now;
+            if(sender is null)  throw new ArgumentNullException(nameof(sender));
+            if (String.IsNullOrEmpty(text)) throw new ArgumentException(nameof(text));
+            Sender = sender;
+            Text = text;
+            Date = DateTime.UtcNow;
         }
 
-        public User Sender { get; set; }
-        public string Text { get; set; }
+        public User Sender { get; private set; }
+        public string Text { get; private set; }
         public DateTime Date { get; private set; }
+        public int ConversationId { get; private set; }
     }
 }

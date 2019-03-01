@@ -7,7 +7,7 @@ namespace Client.Repositories
 {
     public interface IRepository<T>
     {
-        void Add();
+        bool Add(string name);
         T Get();
     }
 }
