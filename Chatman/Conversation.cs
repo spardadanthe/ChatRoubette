@@ -5,15 +5,15 @@ namespace Chatman
 {
     public class Conversation
     {
-        public Conversation()
+        public Conversation(HashSet<UserId> usersParticipatingId)
         {
-            UsersParticipating = new HashSet<User>();
+            UsersParticipatingId = usersParticipatingId;
             History = new List<Message>();
             Id = new ConversationId(Guid.NewGuid().ToString());
         }
 
         public ConversationId Id { get; private set; }
-        public HashSet<User> UsersParticipating { get; private set; }
+        public HashSet<UserId> UsersParticipatingId { get; private set; }
         public List<Message>  History { get; private set; }
 
         public void AddMessage(Message message)

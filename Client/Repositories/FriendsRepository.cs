@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Client.Repositories
 {
-    public class FriendsRepository : IRepository<User>
+    public class FriendsRepository
     {
         public bool Add(string name)
         {

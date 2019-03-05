@@ -9,7 +9,7 @@ namespace Chatman.Tests
         Establish context = () =>
         {
             user = new User("vanko");
-            conv = new Conversation();
+            //conv = new Conversation();
         };
 
         Because of = () => exception = Catch.Exception(() => conv.AddMessage(mess));

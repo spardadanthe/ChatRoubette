@@ -13,14 +13,14 @@ namespace ChatApi.Controllers
     public class ConversationsController : ControllerBase
     {
         public static List<Conversation> Conversations = new List<Conversation>();
-        // GET: api/Conversation
+        // GET: api/Conversations
         [HttpGet]
         public IEnumerable<Conversation> Get()
         {
             return Conversations;
         }
 
-        // GET: api/Conversation/
+        // GET: api/Conversations/
         [HttpGet]
         [Route("{name}/{name2}")]
         public Conversation Get(string name, string name2)
@@ -36,7 +36,8 @@ namespace ChatApi.Controllers
             //Conversations.Add(conv1);
             //Conversation asd = Conversations.SingleOrDefault(x => (x.UsersParticipating.Contains(user1) && x.UsersParticipating.Contains(user2)));
 
-            return Conversations.SingleOrDefault(x => x.UsersParticipating.Any(y => y.Username == name) && x.UsersParticipating.Any(z => z.Username == name2));
+            //TODO FIX THIS
+            return Conversations.SingleOrDefault(x => x.UsersParticipatingId.Any(y => y.Value == name) && x.UsersParticipatingId.Any(z => z.Value == name2));
         }
 
         // POST: api/Conversation

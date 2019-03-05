@@ -17,35 +17,38 @@
     @using (Html.BeginForm("AddToConversation", "User", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-        <select style="width: 30%;"name="conversationId" id="convList" multiple>
-        </select>
+        <select style="width: 30%;" name="friendId" id="friendList" multiple></select>
         <br />
-        <input type="submit" value="Add Conversation" class="btn btn-success btn-lg" />
+        //<input type="submit" value="Add Conversation" class="btn btn-success btn-lg" />
+        <input type="button" onclick="makeConv(); refreshPage()" value="Add Conversation" class="btn btn-success btn-lg" />
     }
     <br>
-    <input type="button" value="Start Conversation" onclick="location.href='@Url.Action("StartConversation", "User")'" />
-</div>
-<div class="text-left">
-    <h1>Friends</h1>
-    <div id="placer"></div>
+
+    @using (Html.BeginForm("StartConversation", "User", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <select style="width: 30%;" name="conversationId" id="convList" ></select>
+        <br />
+        <input type="button" onclick="openConv()" value="Start Conversation" class="btn btn-success btn-lg" />
+
+    }
+    <br>
 
 </div>
-
-
 
 <script>
     $(document).ready(function () {
-        loadData();
+        loadFriends();
+        loadConversations();
     });
 
-    function loadData() {
+    function loadFriends() {
         $.ajax({
             contentType: "application/json",
             type: "GET",
             url: "https://localhost:44385/api/Friends",
             success: function (result) {
-                $("#placer").html("");
-                var select = document.getElementById("convList");
+                var select = document.getElementById("friendList");
                 select.innerHTML = "";
                 for (var i = 0; i < result.length; i++) {
                     var option = document.createElement("option");
@@ -58,9 +61,84 @@
                 //},1000);
             },
             error: function (error) {
-                console.log(error)
+                console.log(error);
             }
         });
+
+    }
+
+    function refreshPage() {
+        window.location.reload();
+    }
+
+    function loadConversations() {
+        $.ajax({
+            contentType: "application/json",
+            type: "GET",
+            url: "https://localhost:44385/api/Conversations",
+            success: function (result) {
+                var select = document.getElementById("convList");
+                select.innerHTML = "";
+                for (var i = 0; i < result.length; i++) {
+                    var option = document.createElement("option");
+                    option.value = result[i]["id"]["value"];
+                    option.text = i;
+                    select.appendChild(option);
+                }
+                //setTimeout(function () {
+                //    loadData();
+                //},1000);
+            },
+            error: function (error) {
+                console.log(error.statusText);
+            }
+        });
+    }
+
+    function makeConv() {
+        var userIds = $("#friendList").val();
+
+        var ids = [];
+        for (var i = 0; i < userIds.length; i++) {
+            ids.push(userIds[i]);
+        }
+
+        var model = {
+            "Ids": ids 
+        };
+
+        
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            url: '/User/AddToConversation',
+            data: JSON.stringify(model),
+            dataType: "json",
+            success: function () {
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+
+    }
+
+    function openConv() {
+        var convId = $("#convList").val();
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            url: '/Conversation/GetId',
+            data: JSON.stringify(convId),
+            success: function () {
+                console.log("success");
+                window.location.href = "/Conversation";
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        })
     }
 </script>
 

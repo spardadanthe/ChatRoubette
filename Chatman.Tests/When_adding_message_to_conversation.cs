@@ -9,7 +9,7 @@ namespace Chatman.Tests
     {
         Establish context = () =>
         {
-            conv = new Conversation();
+            //conv = new Conversation();
             user = new User("vanko");
             mess = new Message(user, "test message", 1);
         };
