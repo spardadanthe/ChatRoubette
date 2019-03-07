@@ -1,19 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Chatman;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Client.Controllers
 {
     public class ConversationController : Controller
     {
-        private string id;
+        private static string id;
 
+        private async  Task<Conversation> GetCurrentConv()
+        {
+            using (var client = new HttpClient())
+            {
+                var content = await client.GetStringAsync("https://localhost:44385/api/Conversations/" + id);
+                return JsonConvert.DeserializeObject<Conversation>(content);
+            }
+        }
+
+        [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            Conversation currentConv = GetCurrentConv().Result;
+            return View(currentConv);
         }
         
         public void GetId([FromBody] string convId)

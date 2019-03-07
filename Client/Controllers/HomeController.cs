@@ -17,10 +17,11 @@ namespace Client.Controllers
         public IActionResult Index()
         {
             User currentUser = null;
-            LocalStorage storage = new LocalStorage();
+            UserStorage storage = new UserStorage();
+
             try
             {
-                currentUser = storage.Get<User>("user");
+                currentUser = storage.GetCurrentUser();
             }
             catch (Exception)
             {

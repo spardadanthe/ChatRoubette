@@ -20,24 +20,16 @@ namespace Client
             }
         }
 
-        //public User GetUser()
-        //{
-        //    var storage = new LocalStorage();
+        public User GetCurrentUser()
+        {
+            var storage = new LocalStorage();
+            User user;
 
-
-        //    using (storage)
-        //    {
-        //        User user;
-        //        try
-        //        {
-        //        user = storage.Get<User>("user");
-        //        }
-        //        catch (Exception)
-        //        {
-        //        }
-        //        return user;
-        //    }
-
-        //}
+            using (storage)
+            {
+                    user = storage.Get<User>("user");
+                    return user;
+            }
+        }
     }
 }
