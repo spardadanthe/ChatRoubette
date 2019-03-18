@@ -39,8 +39,7 @@ namespace ChatApi.Controllers
         [HttpPost]
         public void AddCurrentUser([FromBody] User user)
         {
-           // User user = new User(username);
-            UserProvider.SaveUser(user);
+            UserProvider.AddNewUser(user);
         }
     }
 }

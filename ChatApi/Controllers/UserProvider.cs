@@ -45,17 +45,18 @@ namespace ChatApi.Controllers
 
         public static void SaveUser(User user)
         {
-            try
-            {
+            bool found = Users.Any(x => x.Id.Value == user.Id.Value);
+
+            if (found)
                 Users.RemoveWhere(x => x.Id.Value == user.Id.Value);
-            }
-            catch (System.Exception)
-            {
-            }
-            finally
-             {
+
+            Users.Add(user);
+        }
+
+        public static void AddNewUser(User user)
+        {
+            if (Users.Any(x => x.Username.ToLower() == user.Username.ToLower()) == false)
                 Users.Add(user);
-            }
         }
     }
 }
