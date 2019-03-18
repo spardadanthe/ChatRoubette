@@ -28,8 +28,10 @@ namespace Client.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            Conversation currentConv = GetCurrentConv().Result;
-            return View(currentConv);
+            Task<Conversation> currentConv = GetCurrentConv();
+            if (id is null)
+                return RedirectToAction("Index","Home");
+            return View(currentConv); 
         }
         
         public void GetId([FromBody] string convId)

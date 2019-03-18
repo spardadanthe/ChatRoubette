@@ -45,7 +45,7 @@ namespace ChatApi.Controllers
             var secondUser = UserProvider.GetUserById(addFriendRequest.userToBeAddedId);
 
 
-            if (firstUser == null || secondUser == null)
+            if (firstUser == null || secondUser == null || firstUser.Friends.Any(x => x.Value == secondUser.Id.Value))
             {
                 return Ok();
             }

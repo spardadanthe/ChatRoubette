@@ -2,12 +2,8 @@
 @{
     ViewData["Title"] = "View";
 }
-<input type="hidden" id="convId" value="@Html.DisplayTextFor(m => m.Id)" />
 <ul class="list-group" id="messages">
-    @*<li class="list-group-item d-flex justify-content-between align-items-center">
-            Cras justo odio
-            <span class="badge badge-primary badge-pill">Vanko</span>
-        </li>*@
+
 </ul>
 <br />
 <div class="input-group mb-3">
@@ -60,13 +56,13 @@
                     data: JSON.stringify(result),
                     dataType: "json",
                     success: function () {
-                        
+
                     },
                     error: function (err) {
-                        console.log(err);
+                        //console.log(err);
                     }
                 });
-
+                $("#message").val("");
             },
             error: function (error) {
                 console.log(error);
@@ -112,7 +108,7 @@
 
                 setTimeout(function () {
                     loadMessages();
-                }, 1000);
+                }, 300);
             },
             error: function (error) {
                 console.log(error);

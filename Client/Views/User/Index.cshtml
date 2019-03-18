@@ -11,7 +11,6 @@
     <br />
     <br />
 
-    <input type="text" name="friendName" required />
     <input type="button" value="Add Friend" onclick="addFriend()" class="btn btn-success btn-lg" />
 
     <br />
@@ -24,7 +23,7 @@
         <select style="width: 30%;" name="friendId" id="friendList" multiple></select>
         <br />
         //<input type="submit" value="Add Conversation" class="btn btn-success btn-lg" />
-        <input type="button" onclick="makeConv(); //refreshPage()" value="Add Conversation" class="btn btn-success btn-lg" />
+        <input type="button" onclick="makeConv();" value="Add Conversation" class="btn btn-success btn-lg" />
     }
     <br>
 
@@ -136,9 +135,9 @@
                     option.text = i;
                     select.appendChild(option);
                 }
-                //setTimeout(function () {
-                //    loadData();
-                //},1000);
+                setTimeout(function () {
+                    loadConversations();
+                },1000);
             },
             error: function (error) {
                 console.log(error.statusText);
@@ -170,10 +169,10 @@
             success: function () {
             },
             error: function (err) {
+                
                 console.log(err);
             }
         });
-
     }
 
     function openConv() {
@@ -242,6 +241,7 @@
             data: JSON.stringify(model),
             success: function () {
                 console.log("success adding friend");
+                loadFriends();
             },
             error: function (err) {
                 console.log(err);
