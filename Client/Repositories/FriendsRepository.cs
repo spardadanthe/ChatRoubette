@@ -1,4 +1,5 @@
 ﻿using Chatman;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,13 @@ namespace Client.Repositories
 {
     public class FriendsRepository
     {
-        public bool Add(string name)
+        //Not Used atm
+        [HttpPost]
+        public bool Add([FromBody] AddFriendRequest addFriendRequest)
         {
             using (var client = new HttpClient())
             {
-                User user = new User(name);
-                HttpResponseMessage response = client.PostAsJsonAsync("https://localhost:44385/api/Friends",user).Result;
+                HttpResponseMessage response = client.PostAsJsonAsync("https://localhost:44385/api/Friends", addFriendRequest).Result;
                 if (response.IsSuccessStatusCode) return true;
                 return false;
             }

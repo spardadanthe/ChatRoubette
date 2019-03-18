@@ -17,10 +17,11 @@ namespace Client.Controllers
 
         private async  Task<Conversation> GetCurrentConv()
         {
-            using (var client = new HttpClient())
+            using ( var client = new HttpClient())
             {
                 var content = await client.GetStringAsync("https://localhost:44385/api/Conversations/" + id);
-                return JsonConvert.DeserializeObject<Conversation>(content);
+                var jsonobject = JsonConvert.DeserializeObject<Conversation>(content);
+                return jsonobject;
             }
         }
 
@@ -34,7 +35,7 @@ namespace Client.Controllers
         public void GetId([FromBody] string convId)
         {
             id = convId;
-        }
+         }
 
         public ActionResult Create()
         {

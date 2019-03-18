@@ -12,20 +12,20 @@ namespace Chatman
 
             Id = new UserId(Guid.NewGuid().ToString());
             Username = username;
-            Friends = new HashSet<User>();
+            Friends = new HashSet<UserId>();
             ConversationIds = new HashSet<ConversationId>();
         }
 
         public UserId Id { get; private set; }
         public string Username { get; private set; }
-        public HashSet<User> Friends { get; private set; }
+        public HashSet<UserId> Friends { get; private set; }
         public HashSet<ConversationId> ConversationIds { get; private set; }
 
-        public void AddFriend(User user)
+        public void AddFriend(UserId userId)
         {
-            if (user is null) throw new ArgumentNullException(nameof(user));
+            if (userId is null) throw new ArgumentNullException(nameof(userId));
 
-            Friends.Add(user);
+            Friends.Add(userId);
         }
     }
 }

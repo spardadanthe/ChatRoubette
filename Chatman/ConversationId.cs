@@ -6,6 +6,11 @@ namespace Chatman
 {
     public class ConversationId
     {
+        //public ConversationId()
+        //{
+
+        //}
+
         public ConversationId(string value)
         {
             Value = value;

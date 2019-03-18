@@ -3,16 +3,20 @@
 }
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <div class="text-center">
-    <h1 class="display-4">Welcome @Model.Username</h1>
+    <h1 class="display-4">Welcome <span id="user"></span></h1>
 </div>
 <div class="text-center">
-    @using (Html.BeginForm("AddFriend", "User", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
-        <input type="text" name="friendName" required />
-        <input type="submit" value="Add Friend" class="btn btn-success btn-lg" />
-    }
-    <br>
+    <input type="button" onclick="logout()" value="Logout" class="btn btn-success btn-lg" />
+
+    <br />
+    <br />
+
+    <input type="text" name="friendName" required />
+    <input type="button" value="Add Friend" onclick="addFriend()" class="btn btn-success btn-lg" />
+
+    <br />
+    <h2>All users:</h2>
+    <select style="width: 30%;" name="userId" id="usersList" ></select>
 
     @using (Html.BeginForm("AddToConversation", "User", FormMethod.Post))
     {
@@ -27,7 +31,7 @@
     @using (Html.BeginForm("StartConversation", "User", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
-        <select style="width: 30%;" name="conversationId" id="convList" ></select>
+        <select style="width: 30%;" name="conversationId" id="convList"></select>
         <br />
         <input type="button" onclick="openConv()" value="Start Conversation" class="btn btn-success btn-lg" />
 
@@ -38,15 +42,33 @@
 
 <script>
     $(document).ready(function () {
-        loadFriends();
-        loadConversations();
+        var user = localStorage.getItem('currentUser');
+        console.log(user);
+        if (user === null) {
+            console.log("works");
+            window.location.href = "/Home";
+        }
+        else {
+            user = JSON.parse(user);
+            var newItem = document.getElementById("user");
+            newItem.innerText = user.username;
+            loadFriends();
+            loadAllUsers();
+            loadConversations();
+        }
+
+        
+
+
     });
 
     function loadFriends() {
+        var user = getCurrentUser();
+
         $.ajax({
             contentType: "application/json",
             type: "GET",
-            url: "https://localhost:44385/api/Friends",
+            url: "https://localhost:44385/api/Friends/" + user.username, //"TestGoshko", 
             success: function (result) {
                 var select = document.getElementById("friendList");
                 select.innerHTML = "";
@@ -65,6 +87,35 @@
             }
         });
 
+    }
+
+    function loadAllUsers() {
+        var user = getCurrentUser();
+
+        $.ajax({
+            contentType: "application/json",
+            type: "GET",
+            url: "https://localhost:44385/api/User/all",
+            success: function (result) {
+                var select = document.getElementById("usersList");
+                select.innerHTML = "";
+                for (var i = 0; i < result.length; i++) {
+                    if (result[i]["id"]["value"] == user.id.value) {
+                        continue;
+                    }
+                    var option = document.createElement("option");
+                    option.value = result[i]["id"]["value"];
+                    option.text = result[i]["username"];
+                    select.appendChild(option);
+                }
+                //setTimeout(function () {
+                //    loadData();
+                //},1000);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
     }
 
     function refreshPage() {
@@ -96,18 +147,20 @@
     }
 
     function makeConv() {
+        var currentUserId = getCurrentUser().id.value;
         var userIds = $("#friendList").val();
 
         var ids = [];
+        ids.push(currentUserId);
         for (var i = 0; i < userIds.length; i++) {
             ids.push(userIds[i]);
         }
 
         var model = {
-            "Ids": ids 
+            "Ids": ids
         };
 
-        
+
         $.ajax({
             contentType: 'application/json; charset=utf-8',
             type: 'POST',
@@ -133,13 +186,71 @@
             data: JSON.stringify(convId),
             success: function () {
                 console.log("success");
+                localStorage.setItem("currentConv", convId);
                 window.location.href = "/Conversation";
             },
             error: function (err) {
                 console.log(err);
             }
-        })
+        });
     }
+
+    function logout() {
+        localStorage.clear();
+        window.location.href = "/Home";
+    }
+
+    function getCurrentUser() {
+        var user = JSON.parse(localStorage.getItem('currentUser'));
+        return user;
+    }
+
+    function getUserById(id) {
+
+        $.ajax({
+            contentType: "application/json",
+            type: "GET",
+            url: "https://localhost:44385/api/user/getbyid/" + id,
+            success: function (result) {
+                return result;
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+
+    }
+
+    function addFriend() {
+        var currentUserId = getCurrentUser().id;
+
+        var userId = $("#usersList").val();
+
+        var selectedUserId = {
+            "value": userId
+        };
+
+        var model = {
+            "currentUserId": currentUserId,
+            "userToBeAddedId": selectedUserId
+        };
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            url: 'https://localhost:44385/api/Friends',
+            data: JSON.stringify(model),
+            success: function () {
+                console.log("success adding friend");
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+
+    }
+
+    
 </script>
 
 

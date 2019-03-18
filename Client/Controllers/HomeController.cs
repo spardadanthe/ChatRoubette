@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Session;
 using Hanssens.Net;
 using Chatman;
+using System.Net.Http;
+using System.IO;
 
 namespace Client.Controllers
 {
@@ -16,31 +18,10 @@ namespace Client.Controllers
     {
         public IActionResult Index()
         {
-            User currentUser = null;
-            UserStorage storage = new UserStorage();
-
-            try
-            {
-                currentUser = storage.GetCurrentUser();
-            }
-            catch (Exception)
-            {
-            }
-            if(!(string.IsNullOrEmpty(currentUser.Username)))
-            {
-            return RedirectToAction("Index", "User");
-            }
             return View();
-
         }
 
-        [HttpPost]
-        public IActionResult Enter(string username)
-        {
-            UserStorage storage = new UserStorage();
-            storage.SaveUser(username);
-            return RedirectToAction("Index", "User");
-        }
+        
 
 
         public IActionResult Privacy()

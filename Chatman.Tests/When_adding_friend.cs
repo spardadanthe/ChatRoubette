@@ -13,7 +13,7 @@ namespace Chatman.Tests
 
         Because of = () =>
         {
-            mainUser.AddFriend(friend);
+            //mainUser.AddFriend(friend);
         };
 
         It should_have_friend = () => mainUser.Friends.ShouldContain(friend);

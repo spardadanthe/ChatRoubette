@@ -1,16 +1,58 @@
-﻿@{
+﻿@model Chatman.User
+@{
     ViewData["Title"] = "Home Page";
 }
-
+<script src="~/lib/jquery/dist/jquery.js"></script>
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-
-    <form action="/home/enter" method="post">
+    <form asp-action="Enter" method="post">
         <label for="username">Name</label>
-        <input type="text" name="username" />
-        <input type="submit" name="submit" />
+        <input type="text" id="username" />
+        <input type="button" value="Login" onclick="saveUser();" id="login" />
     </form>
 </div>
+<script>
+    function saveUser() {
+        var currentUsername = $("#username").val();
+        var user = {
+            username: currentUsername
+        };
 
+        //if ((getUser(currentUsername) === 'undefined') == false) {
+        //    return;
+        //}
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST',
+            url: 'https://localhost:44385/api/User',
+            data: JSON.stringify(user),
+            success: function () {
+                console.log("success");
+                getUser(user.username);
+                
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+    
+    function getUser(username) {
+        $.ajax({
+            contentType: "application/json",
+            type: "GET",
+            url: "https://localhost:44385/api/User/" + username,
+            success: function (result) {
+                localStorage.setItem('currentUser', JSON.stringify(result));
+                window.location.href = "/User";
+
+            },
+            error: function (error) {
+                console.log(error.statusText);
+            }
+        });
+    }
+</script>
 

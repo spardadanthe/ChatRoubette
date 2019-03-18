@@ -12,7 +12,7 @@ namespace ChatApi.Controllers
     [ApiController]
     public class ConversationsController : ControllerBase
     {
-        public static List<Conversation> Conversations = new List<Conversation>();
+        public static HashSet<Conversation> Conversations = new HashSet<Conversation>();
         // GET: api/Conversations
         [HttpGet]
         public IEnumerable<Conversation> Get()
@@ -28,11 +28,13 @@ namespace ChatApi.Controllers
         }
 
         // POST: api/Conversation
-        [HttpPost]
-        public void Post([FromBody] Conversation conv)
+        [HttpPost()]
+        public void Post(Conversation conv)
         {
-            Conversations.Add(conv);
+            SaveConv(conv);
         }
+
+
 
         // PUT: api/Conversation/5
         [HttpPut("{id}")]
@@ -44,6 +46,21 @@ namespace ChatApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        public static void SaveConv(Conversation conv)
+        {
+            try
+            {
+                Conversations.RemoveWhere(x => x.Id.Value == conv.Id.Value);
+            }
+            catch (System.Exception)
+            {
+            }
+            finally
+            {
+                Conversations.Add(conv);
+            }
         }
     }
 }

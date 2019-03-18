@@ -10,9 +10,10 @@ namespace Chatman
             UsersParticipatingId = usersParticipatingId;
             History = new List<Message>();
             Id = new ConversationId(Guid.NewGuid().ToString());
+
         }
 
-        public ConversationId Id { get; private set; }
+        public ConversationId Id { get; set; }
         public HashSet<UserId> UsersParticipatingId { get; private set; }
         public List<Message>  History { get; private set; }
 
