@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Chatman
 {
@@ -8,24 +7,35 @@ namespace Chatman
     {
         public User(string username)
         {
-            if (string.IsNullOrEmpty(username)) throw new ArgumentException("Username cannot  be null ot empty");
+            if (string.IsNullOrEmpty(username)) throw new ArgumentException(nameof(username));
 
             Id = new UserId(Guid.NewGuid().ToString());
             Username = username;
-            Friends = new HashSet<UserId>();
-            ConversationIds = new HashSet<ConversationId>();
+            FriendIds = new HashSet<UserId>();
+        }
+
+        public User(UserId userId,string username)
+        {
+            if (userId is null) throw new ArgumentNullException(nameof(userId));
+            if (string.IsNullOrEmpty(username)) throw new ArgumentException(nameof(username));
+
+            Id = userId;
+            Username = username;
+            FriendIds = new HashSet<UserId>();
         }
 
         public UserId Id { get; private set; }
         public string Username { get; private set; }
-        public HashSet<UserId> Friends { get; private set; }
-        public HashSet<ConversationId> ConversationIds { get; private set; }
+        public ICollection<UserId> FriendIds { get; private set; }
 
-        public void AddFriend(UserId userId)
+        public bool AddFriend(UserId friendId)
         {
-            if (userId is null) throw new ArgumentNullException(nameof(userId));
+            if (friendId is null) return false;
 
-            Friends.Add(userId);
+            FriendIds.Add(friendId);
+
+            return true;
         }
+
     }
 }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Chatman
 {
@@ -8,30 +6,35 @@ namespace Chatman
     {
         public UserId(string value)
         {
+            if (string.IsNullOrEmpty(value)) new ArgumentException(nameof(value));
             Value = value;
         }
 
         public string Value { get; private set; }
 
-        //public override bool Equals(object obj)
-        //{
-        //    return this.Value == ((UserId)obj).Value;
-        //}
-
-        //public static bool operator ==(UserId b1, UserId b2)
-        //{
-        //    return !(b1 == b2);
-        //}
-
-        //public static bool operator !=(UserId b1, UserId b2)
-        //{
-        //    return !(b1 == b2);
-        //}
-
-
-        public override string ToString()
+        public override bool Equals(object obj)
         {
-            return Value;
+            return Value == ((UserId)obj).Value;
         }
+
+        public static bool operator ==(UserId b1, UserId b2)
+        {
+            if (b1.Value == b2.Value) return true;
+
+            return false;
+        }
+
+        public static bool operator !=(UserId b1, UserId b2)
+        {
+            if (b1.Value != b2.Value) return true;
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
     }
 }

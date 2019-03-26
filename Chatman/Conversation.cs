@@ -5,22 +5,42 @@ namespace Chatman
 {
     public class Conversation
     {
-        public Conversation(HashSet<UserId> usersParticipatingId)
+        public Conversation(ICollection<UserId> usersParticipatingIds)
+            : this(new ConversationId(Guid.NewGuid().ToString()), usersParticipatingIds) { }
+
+        public Conversation(ConversationId id, ICollection<UserId> usersParticipatingIds)
         {
-            UsersParticipatingId = usersParticipatingId;
+            if (id is null) throw new ArgumentNullException();
+            if (usersParticipatingIds is null) throw new ArgumentNullException(nameof(usersParticipatingIds));
+            if (usersParticipatingIds.Count <= 1) throw new ArgumentException("Conversation cannot be created with 1 or less users");
+
+            Id = id;
+            UsersParticipatingIds = usersParticipatingIds;
             History = new List<Message>();
-            Id = new ConversationId(Guid.NewGuid().ToString());
-
         }
 
-        public ConversationId Id { get; set; }
-        public HashSet<UserId> UsersParticipatingId { get; private set; }
-        public List<Message>  History { get; private set; }
+        public ConversationId Id { get; private set; }
+        public ICollection<UserId> UsersParticipatingIds { get; private set; }
+        public ICollection<Message> History { get; private set; }
 
-        public void AddMessage(Message message)
+        public bool AddMessage(Message message)
         {
-            if (message is null) throw new ArgumentNullException(nameof(message));
+            if (message is null) return false;
+
             History.Add(message);
+
+            return true;
+
         }
+
+        public bool AddParticipantToConversation(UserId participantId)
+        {
+            if (participantId is null) return false;
+
+            UsersParticipatingIds.Add(participantId);
+
+            return true;
+        }
+
     }
 }
