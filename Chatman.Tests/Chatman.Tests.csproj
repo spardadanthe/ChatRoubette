@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chatman\Chatman.csproj" />
-    <ProjectReference Include="..\InMemoryPersistence\InMemoryPersistence.csproj" />
   </ItemGroup>
 
 </Project>

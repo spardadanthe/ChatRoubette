@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InMemoryPersistence\InMemoryPersistence.csproj" />
-    <ProjectReference Include="..\Persistence\Persistence.csproj" />
+    <ProjectReference Include="..\InMemoryPersistence\Chatman.Persistence.InMemory.csproj" />
+    <ProjectReference Include="..\Persistence\Chatman.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
