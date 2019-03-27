@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InMemoryPersistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Persistence.Interfaces;
 
 namespace Chatman.Api
 {
@@ -33,6 +35,10 @@ namespace Chatman.Api
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
+
+            services.AddSingleton<IRepository<User>, InMemoryRepository<User>>();
+            services.AddSingleton<IRepository<Friendship>, InMemoryRepository<Friendship>>();
+            services.AddSingleton<IRepository<Conversation>,InMemoryRepository<Conversation>>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
