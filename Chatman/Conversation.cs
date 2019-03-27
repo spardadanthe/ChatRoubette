@@ -3,23 +3,20 @@ using System.Collections.Generic;
 
 namespace Chatman
 {
-    public class Conversation
+    public class Conversation : BaseEntity
     {
         public Conversation(ICollection<UserId> usersParticipatingIds)
             : this(new ConversationId(Guid.NewGuid().ToString()), usersParticipatingIds) { }
 
-        public Conversation(ConversationId id, ICollection<UserId> usersParticipatingIds)
+        public Conversation(ConversationId id, ICollection<UserId> usersParticipatingIds) : base(id)
         {
-            if (id is null) throw new ArgumentNullException();
             if (usersParticipatingIds is null) throw new ArgumentNullException(nameof(usersParticipatingIds));
             if (usersParticipatingIds.Count <= 1) throw new ArgumentException("Conversation cannot be created with 1 or less users");
 
-            Id = id;
             UsersParticipatingIds = usersParticipatingIds;
             History = new List<Message>();
         }
 
-        public ConversationId Id { get; private set; }
         public ICollection<UserId> UsersParticipatingIds { get; private set; }
         public ICollection<Message> History { get; private set; }
 

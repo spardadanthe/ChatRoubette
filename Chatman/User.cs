@@ -3,28 +3,24 @@ using System.Collections.Generic;
 
 namespace Chatman
 {
-    public class User
+    public class User : BaseEntity
     {
-        public User(string username)
+        public User(string username) : base(new UserId(Guid.NewGuid().ToString()))
         {
             if (string.IsNullOrEmpty(username)) throw new ArgumentException(nameof(username));
 
-            Id = new UserId(Guid.NewGuid().ToString());
             Username = username;
             FriendIds = new HashSet<UserId>();
         }
 
-        public User(UserId userId,string username)
+        public User(UserId userId,string username) : base(userId)
         {
-            if (userId is null) throw new ArgumentNullException(nameof(userId));
             if (string.IsNullOrEmpty(username)) throw new ArgumentException(nameof(username));
 
-            Id = userId;
             Username = username;
             FriendIds = new HashSet<UserId>();
         }
 
-        public UserId Id { get; private set; }
         public string Username { get; private set; }
         public ICollection<UserId> FriendIds { get; private set; }
 
@@ -36,6 +32,5 @@ namespace Chatman
 
             return true;
         }
-
     }
 }
