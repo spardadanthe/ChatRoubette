@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-
+using Persistence.Interfaces;
 
 namespace Chatman.Api.Controllers
 {
@@ -9,18 +9,20 @@ namespace Chatman.Api.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly IRepository<User> usersRepository;
 
-        public UsersController()
+        public UsersController(IRepository<User> repo)
         {
+            this.usersRepository = repo;
         }
 
-        //[HttpGet]
-        //public IActionResult GetAll()
-        //{
-        //    ICollection<User> allUsers = usersRepository.GetAll();
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            ICollection<User> allUsers = usersRepository.GetAll();
 
-        //    return new OkObjectResult(allUsers.First());
-        //}
+            return Ok(allUsers);
+        }
 
         //[HttpGet]
         //[Route("{id}")]

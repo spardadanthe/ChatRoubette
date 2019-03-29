@@ -21,7 +21,7 @@ namespace InMemoryPersistence.Repositories
             storage.Add(entity);
         }
 
-        public T GetById(BaseId id)
+        public T GetById(IBaseId id)
         {
             return storage.FirstOrDefault(x => x.Id == id);
         }

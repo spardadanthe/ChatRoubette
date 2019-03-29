@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Chatman.Persistence.EF\Chatman.Persistence.EF.csproj" />
     <ProjectReference Include="..\Chatman\Chatman.csproj" />
   </ItemGroup>
 

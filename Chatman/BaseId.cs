@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Chatman
 {
-    public class BaseId
+    public class BaseId : IBaseId
     {
         public BaseId(string value)
         {
@@ -21,6 +21,10 @@ namespace Chatman
 
         public static bool operator ==(BaseId b1, BaseId b2)
         {
+            if (b2 is null)
+            {
+                return false;
+            }
             if (b1.Value == b2.Value) return true;
 
             return false;
@@ -37,6 +41,12 @@ namespace Chatman
         {
             return Value.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
+
 
     }
 }

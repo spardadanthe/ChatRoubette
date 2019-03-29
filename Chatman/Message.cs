@@ -2,9 +2,13 @@
 
 namespace Chatman
 {
-    public class Message
+    public class Message : BaseEntity
     {
-        public Message(UserId senderId, string text)
+        public Message(UserId senderId,string text) : this(new BaseId(Guid.NewGuid().ToString()),senderId,text)
+        {
+        }
+
+        public Message(BaseId id,UserId senderId, string text) : base(id)
         {
             if (senderId is null) throw new ArgumentNullException(nameof(senderId));
             if (string.IsNullOrEmpty(text)) throw new ArgumentException(nameof(text));

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Chatman.Persistence.EF.Repositories;
 using InMemoryPersistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,6 +40,7 @@ namespace Chatman.Api
             services.AddSingleton<IRepository<User>, InMemoryRepository<User>>();
             services.AddSingleton<IRepository<Friendship>, InMemoryRepository<Friendship>>();
             services.AddSingleton<IRepository<Conversation>,InMemoryRepository<Conversation>>();
+            services.AddTransient<IRepository<User>>(x => new EfRepository<User>("Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

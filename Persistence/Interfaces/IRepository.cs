@@ -7,7 +7,7 @@ namespace Persistence.Interfaces
     {
         ICollection<T> GetAll();
 
-        T GetById(BaseId id);
+        T GetById(IBaseId id);
 
         void Add(T entity);
     }

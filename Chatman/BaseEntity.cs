@@ -6,11 +6,11 @@ namespace Chatman
 {
     public class BaseEntity
     {
-        public BaseEntity(BaseId id)
+        public BaseEntity(IBaseId id)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));
         }
 
-        public BaseId Id { get; private set; }
+        public IBaseId Id { get; private set; }
     }
 }
