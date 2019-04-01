@@ -15,15 +15,15 @@ namespace Chatman.Persistence.EF
             this.connectionString = connectionString;
         }
 
+        public DbSet<User> Users { get; set; }
+        public DbSet<Conversation> Conversations { get; set; }
+        public DbSet<Friendship> Friendships { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(connectionString);
 
         }
-
-        public DbSet<User> Users { get; set; }
-        public DbSet<Conversation> Conversations { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var userEntity = modelBuilder.Entity<User>();
@@ -56,6 +56,7 @@ namespace Chatman.Persistence.EF
                 );
 
             friendshipEntity.HasKey("Id");
+            friendshipEntity.ToTable("Friendship");
             friendshipEntity.Property(p => p.FirstUserId).IsRequired();
             friendshipEntity.Property(p => p.SecondUserId).IsRequired();
 
@@ -86,9 +87,7 @@ namespace Chatman.Persistence.EF
             modelBuilder.Ignore<UserId>();
             modelBuilder.Ignore<ConversationId>();
             modelBuilder.Ignore<FriendshipId>();
-
-
-
         }
+
     }
 }

@@ -19,6 +19,7 @@ namespace Chatman.Persistence.EF.Repositories
             if (entity is null) throw new ArgumentNullException(nameof(entity));
 
             context.Set<T>().Add(entity);
+            context.SaveChanges();
         }
 
         public ICollection<T> GetAll()
@@ -30,7 +31,9 @@ namespace Chatman.Persistence.EF.Repositories
         {
             if (id is null) throw new ArgumentNullException(nameof(id));
 
-            return context.Set<T>().FirstOrDefault(x => x.Id == id);
+            var result = context.Set<T>().FirstOrDefault(x => x.Id.Value == id.Value);
+
+            return result;
         }
     }
 }

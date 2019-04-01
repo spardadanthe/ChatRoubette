@@ -41,6 +41,8 @@ namespace Chatman.Api
             services.AddSingleton<IRepository<Friendship>, InMemoryRepository<Friendship>>();
             services.AddSingleton<IRepository<Conversation>,InMemoryRepository<Conversation>>();
             services.AddTransient<IRepository<User>>(x => new EfRepository<User>("Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+            services.AddTransient<IRepository<Friendship>>(x => new EfRepository<Friendship>("Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+            services.AddTransient<IRepository<Conversation>>(x => new EfRepository<Conversation>("Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="RequestModels\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Chatman.Persistence.EF\Chatman.Persistence.EF.csproj" />
     <ProjectReference Include="..\InMemoryPersistence\Chatman.Persistence.InMemory.csproj" />
     <ProjectReference Include="..\Persistence\Chatman.Persistence.csproj" />

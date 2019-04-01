@@ -8,13 +8,23 @@ namespace Chatman
         public Conversation(ICollection<UserId> usersParticipatingIds)
             : this(new ConversationId(Guid.NewGuid().ToString()), usersParticipatingIds) { }
 
-        public Conversation(ConversationId id, ICollection<UserId> usersParticipatingIds) : base(id)
+        public Conversation(ConversationId id, ICollection<UserId> usersParticipatingIds,
+            ICollection<Message> messages = null) : base(id)
         {
             if (usersParticipatingIds is null) throw new ArgumentNullException(nameof(usersParticipatingIds));
             if (usersParticipatingIds.Count <= 1) throw new ArgumentException("Conversation cannot be created with 1 or less users");
 
             UsersParticipatingIds = usersParticipatingIds;
-            History = new List<Message>();
+
+            if (messages is null == false)
+            {
+                History = messages;
+            }
+            else
+            {
+                History = new List<Message>();
+            }
+
         }
 
         public ICollection<UserId> UsersParticipatingIds { get; private set; }
