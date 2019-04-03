@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Chatman.Persistence.EF;
 using Chatman.Persistence.EF.Repositories;
 using InMemoryPersistence.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Persistence.Interfaces;
 
 namespace Chatman.Api
@@ -37,12 +32,24 @@ namespace Chatman.Api
                     .AllowCredentials());
             });
 
-            services.AddSingleton<IRepository<User>, InMemoryRepository<User>>();
-            services.AddSingleton<IRepository<Friendship>, InMemoryRepository<Friendship>>();
-            services.AddSingleton<IRepository<Conversation>,InMemoryRepository<Conversation>>();
-            services.AddTransient<IRepository<User>>(x => new EfRepository<User>("Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
-            services.AddTransient<IRepository<Friendship>>(x => new EfRepository<Friendship>("Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
-            services.AddTransient<IRepository<Conversation>>(x => new EfRepository<Conversation>("Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+            //services.AddSingleton<IRepository<User>, InMemoryRepository<User>>();
+            //services.AddSingleton<IRepository<Friendship>, InMemoryRepository<Friendship>>();
+            //services.AddSingleton<IRepository<Conversation>,InMemoryRepository<Conversation>>();
+            services.AddEntityFrameworkSqlServer()
+
+                 
+                .AddDbContext<ChatmanContext>(options =>
+                {
+                    options.UseSqlServer(
+                        "Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False",
+                        sqlOptions => sqlOptions.MigrationsAssembly(typeof(Startup).Assembly.GetName().Name));
+                }, ServiceLifetime.Transient);
+
+            //services.SetupDatabase("Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False",typeof(Startup).GetType().Assembly);
+
+            services.AddTransient<IRepository<User>, EfRepository<User>>();
+            services.AddTransient<IRepository<Friendship>, EfRepository<Friendship>>();
+            services.AddTransient<IRepository<Conversation>, EfRepository<Conversation>>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
