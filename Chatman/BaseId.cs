@@ -16,6 +16,9 @@ namespace Chatman
 
         public override bool Equals(object obj)
         {
+            if (obj is null)
+                return false;
+
             return Value == ((BaseId)obj).Value;
         }
 

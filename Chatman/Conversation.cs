@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Chatman
 {
@@ -27,6 +28,8 @@ namespace Chatman
 
         }
 
+        public UserId OwnerId { get; private set; }
+        public ICollection<UserId> BlockedUsers { get; private set; }
         public ICollection<UserId> UsersParticipatingIds { get; private set; }
         public ICollection<Message> History { get; private set; }
 
@@ -40,6 +43,22 @@ namespace Chatman
 
         }
 
+        public void BlockUser(UserId userId)
+        {
+            if(userId is null) throw new ArgumentNullException(nameof(userId));
+
+            if (string.IsNullOrEmpty(userId.Value))
+                throw new ArgumentException(nameof(userId.Value) + "cannot be empty");
+
+            if (userId == OwnerId)
+                throw new ArgumentException("The owner of the conversation cannot block himself");
+
+            if (BlockedUsers.Any(x => x.Value == userId.Value))
+                throw new ArgumentException("There is already blocker user with this id");
+
+            BlockedUsers.Add(userId);
+        }
+
         public bool AddParticipantToConversation(UserId participantId)
         {
             if (participantId is null) return false;
@@ -48,6 +67,8 @@ namespace Chatman
 
             return true;
         }
+
+
 
     }
 }

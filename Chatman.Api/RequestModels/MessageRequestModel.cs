@@ -11,7 +11,7 @@ namespace Chatman.Api.RequestModels
         {
 
         }
-
+        
         public string ConvId { get; set; }
         public string AuthorId { get; set; }
         public string Text { get; set; }

@@ -56,32 +56,5 @@ namespace Chatman.Api.Controllers
             convRepository.Add(convToBeAdded);
             return Ok();
         }
-
-        [HttpPost]
-        [Route("message")]
-        public ActionResult AddMessageToConv(MessageRequestModel message)
-        {
-            if (string.IsNullOrEmpty(message.AuthorId))
-                return BadRequest("AuthorId cannot be null");
-
-            if (string.IsNullOrEmpty(message.Text))
-                return BadRequest("Message Text should not be empty");
-
-            if (string.IsNullOrEmpty(message.ConvId))
-                return BadRequest("Conversation id cannot be null");
-            
-            Conversation conv = convRepository
-                .GetById(new ConversationId(message.ConvId));
-
-            if (conv is null)
-                return NotFound("The conversation that you are trying to add message to does not exist");
-
-            var messageToBeAdded = new Message(new UserId(message.AuthorId),message.Text);
-            conv.AddMessage(messageToBeAdded);
-
-            return Ok();
-
-        }
-
     }
 }

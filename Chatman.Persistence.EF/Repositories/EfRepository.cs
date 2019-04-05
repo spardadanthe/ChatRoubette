@@ -1,39 +1,49 @@
-﻿using Persistence.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Persistence.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Chatman.Persistence.EF.Repositories
 {
     public class EfRepository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly ChatmanContext context;
+        private readonly ChatmanContext _context;
 
-        public EfRepository(string connectionString)
+        public EfRepository(ChatmanContext context)
         {
-            context = new ChatmanContext(connectionString);
+            _context = context;
         }
 
         public void Add(T entity)
         {
             if (entity is null) throw new ArgumentNullException(nameof(entity));
 
-            context.Set<T>().Add(entity);
-            context.SaveChanges();
+            _context.Set<T>().Add(entity);
+            _context.SaveChanges();
         }
 
         public ICollection<T> GetAll()
         {
-            return context.Set<T>().ToList();
+            return _context.Set<T>().ToList();
         }
 
         public T GetById(IBaseId id)
         {
             if (id is null) throw new ArgumentNullException(nameof(id));
 
-            var result = context.Set<T>().FirstOrDefault(x => x.Id.Value == id.Value);
+            var result = _context.Set<T>().FirstOrDefault(x => x.Id.Value == id.Value);
 
             return result;
+        }
+
+        public void Update(T entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+            _context.SaveChanges();
+
         }
     }
 }

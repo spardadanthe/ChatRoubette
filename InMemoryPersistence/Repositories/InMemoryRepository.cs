@@ -25,5 +25,11 @@ namespace InMemoryPersistence.Repositories
         {
             return storage.FirstOrDefault(x => x.Id == id);
         }
+
+        public void Update(T entity)
+        {
+            storage.ToHashSet().RemoveWhere(x => x.Id.Value == entity.Id.Value);
+            Add(entity);
+        }
     }
 }

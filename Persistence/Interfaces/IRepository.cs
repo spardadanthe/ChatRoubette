@@ -10,5 +10,7 @@ namespace Persistence.Interfaces
         T GetById(IBaseId id);
 
         void Add(T entity);
+
+        void Update(T entity);
     }
 }
