@@ -2,6 +2,6 @@
 {
     public interface IBaseId
     {
-        string Value { get; }
+        string Value { get;}
     }
 }

@@ -13,6 +13,7 @@ namespace Chatman.Api.RequestModels
         }
 
         public string Id { get; set; }
+        public string OwnerId { get; set; }
         public ICollection<string> UsersParticipatingIds { get; set; }
     }
 }

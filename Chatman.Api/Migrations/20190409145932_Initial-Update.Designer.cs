@@ -4,14 +4,16 @@ using Chatman.Persistence.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Chatman.Api.Migrations
 {
     [DbContext(typeof(ChatmanContext))]
-    partial class ChatmanContextModelSnapshot : ModelSnapshot
+    [Migration("20190409145932_Initial-Update")]
+    partial class InitialUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,24 +71,6 @@ namespace Chatman.Api.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ConversationUsersParticipating");
-                });
-
-            modelBuilder.Entity("Chatman.Persistence.EF.Dtos.FriendshipDto", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FirstUserId");
-
-                    b.Property<string>("SecondUserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FirstUserId");
-
-                    b.HasIndex("SecondUserId");
-
-                    b.ToTable("Friendships");
                 });
 
             modelBuilder.Entity("Chatman.Persistence.EF.Dtos.MessageDto", b =>
@@ -150,17 +134,6 @@ namespace Chatman.Api.Migrations
                     b.HasOne("Chatman.Persistence.EF.Dtos.UserDto", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Chatman.Persistence.EF.Dtos.FriendshipDto", b =>
-                {
-                    b.HasOne("Chatman.Persistence.EF.Dtos.UserDto", "FirstUser")
-                        .WithMany()
-                        .HasForeignKey("FirstUserId");
-
-                    b.HasOne("Chatman.Persistence.EF.Dtos.UserDto", "SecondUser")
-                        .WithMany()
-                        .HasForeignKey("SecondUserId");
                 });
 
             modelBuilder.Entity("Chatman.Persistence.EF.Dtos.MessageDto", b =>

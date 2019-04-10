@@ -39,6 +39,8 @@ namespace Chatman.Api.Controllers
         {
             var convId = new ConversationId(conv.Id);
             var userIds = new List<UserId>();
+            var ownerId = new UserId(conv.OwnerId);
+
             ICollection<UserId> usersParticipatingIds = new List<UserId>();
 
             foreach (string id in conv.UsersParticipatingIds)
@@ -48,7 +50,7 @@ namespace Chatman.Api.Controllers
 
             }
 
-            Conversation convToBeAdded = new Conversation(convId, usersParticipatingIds);
+            Conversation convToBeAdded = new Conversation(convId, usersParticipatingIds,ownerId);
 
             bool found = convRepository.GetAll().Any(x => x.Id == convToBeAdded.Id);
             if (found) return Ok();

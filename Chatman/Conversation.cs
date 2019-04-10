@@ -6,16 +6,18 @@ namespace Chatman
 {
     public class Conversation : BaseEntity
     {
-        public Conversation(ICollection<UserId> usersParticipatingIds)
-            : this(new ConversationId(Guid.NewGuid().ToString()), usersParticipatingIds) { }
+        public Conversation(ICollection<UserId> usersParticipatingIds,UserId ownerId)
+            : this(new ConversationId(Guid.NewGuid().ToString()), usersParticipatingIds,ownerId) { }
 
-        public Conversation(ConversationId id, ICollection<UserId> usersParticipatingIds,
+        public Conversation(ConversationId id, ICollection<UserId> usersParticipatingIds,UserId ownerId,
             ICollection<Message> messages = null) : base(id)
         {
             if (usersParticipatingIds is null) throw new ArgumentNullException(nameof(usersParticipatingIds));
             if (usersParticipatingIds.Count <= 1) throw new ArgumentException("Conversation cannot be created with 1 or less users");
+            if (ownerId is null) throw new ArgumentException(nameof(ownerId));
 
             UsersParticipatingIds = usersParticipatingIds;
+            OwnerId = ownerId;
 
             if (messages is null == false)
             {
@@ -29,7 +31,7 @@ namespace Chatman
         }
 
         public UserId OwnerId { get; private set; }
-        public ICollection<UserId> BlockedUsers { get; private set; }
+        public ICollection<UserId> BlockedUsersIds { get; private set; }
         public ICollection<UserId> UsersParticipatingIds { get; private set; }
         public ICollection<Message> History { get; private set; }
 
@@ -53,10 +55,10 @@ namespace Chatman
             if (userId == OwnerId)
                 throw new ArgumentException("The owner of the conversation cannot block himself");
 
-            if (BlockedUsers.Any(x => x.Value == userId.Value))
+            if (BlockedUsersIds.Any(x => x.Value == userId.Value))
                 throw new ArgumentException("There is already blocker user with this id");
 
-            BlockedUsers.Add(userId);
+            BlockedUsersIds.Add(userId);
         }
 
         public bool AddParticipantToConversation(UserId participantId)

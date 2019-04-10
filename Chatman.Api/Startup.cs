@@ -1,4 +1,6 @@
-﻿using Chatman.Persistence.EF;
+﻿using AutoMapper;
+using Chatman.Persistence.EF;
+using Chatman.Persistence.EF.Dtos;
 using Chatman.Persistence.EF.Repositories;
 using InMemoryPersistence.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -32,9 +34,8 @@ namespace Chatman.Api
                     .AllowCredentials());
             });
 
-            //services.AddSingleton<IRepository<User>, InMemoryRepository<User>>();
-            //services.AddSingleton<IRepository<Friendship>, InMemoryRepository<Friendship>>();
-            //services.AddSingleton<IRepository<Conversation>,InMemoryRepository<Conversation>>();
+            services.AddChatmanEfPersistence();
+          
             services.AddEntityFrameworkSqlServer()
 
                  
@@ -47,10 +48,10 @@ namespace Chatman.Api
 
             //services.SetupDatabase("Data Source=localhost;Initial Catalog=Test;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False",typeof(Startup).GetType().Assembly);
 
-            services.AddTransient<IRepository<User>, EfRepository<User>>();
-            services.AddTransient<IRepository<Friendship>, EfRepository<Friendship>>();
-            services.AddTransient<IRepository<Conversation>, EfRepository<Conversation>>();
-            services.AddTransient<IRepository<Message>, EfRepository<Message>>();
+            services.AddTransient<IRepository<User>, EfRepository<User,UserDto>>();
+            services.AddTransient<IRepository<Conversation>, EfRepository<Conversation, ConversationDto>>();
+            //services.AddTransient<IRepository<Friendship>, EfRepository<Friendship,FriendshipDto>>();
+            //services.AddTransient<IRepository<Message>, EfRepository<Message,MessageDto>>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

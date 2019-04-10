@@ -10,12 +10,12 @@ namespace Chatman.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IRepository<User> usersRepository;
-        private readonly IRepository<Friendship> friendshipsRepo;
+        //private readonly IRepository<Friendship> friendshipsRepo;
 
-        public UsersController(IRepository<User> usersRepo, IRepository<Friendship> friendshipsRepo)
+        public UsersController(IRepository<User> usersRepo) //IRepository<Friendship> friendshipsRepo)
         {
             usersRepository = usersRepo;
-            this.friendshipsRepo = friendshipsRepo;
+            //this.friendshipsRepo = friendshipsRepo;
         }
 
         [HttpGet]
@@ -52,38 +52,38 @@ namespace Chatman.Api.Controllers
             return user;
         }
 
-        [HttpGet]
-        [Route("{id}/friends")]
-        public ActionResult<IEnumerable<User>> GetFriendsByUserId(string id)
-        {
-            var userId = new UserId(id);
-            var listWithFriendIds = new List<UserId>();
-            var listWithFriends = new List<User>();
+        //[HttpGet]
+        //[Route("{id}/friends")]
+        //public ActionResult<IEnumerable<User>> GetFriendsByUserId(string id)
+        //{
+        //    var userId = new UserId(id);
+        //    var listWithFriendIds = new List<UserId>();
+        //    var listWithFriends = new List<User>();
 
-            ICollection<Friendship> listOfFriendships = friendshipsRepo.GetAll();
+        //    ICollection<Friendship> listOfFriendships = friendshipsRepo.GetAll();
 
-            foreach (var friendship in listOfFriendships)
-            {
-                if (friendship.FirstUserId == userId)
-                {
-                    listWithFriendIds.Add(friendship.SecondUserId);
-                }
-                else if (friendship.SecondUserId == userId)
-                {
-                    listWithFriendIds.Add(friendship.FirstUserId);
-                }
-            }
+        //    foreach (var friendship in listOfFriendships)
+        //    {
+        //        if (friendship.FirstUserId == userId)
+        //        {
+        //            listWithFriendIds.Add(friendship.SecondUserId);
+        //        }
+        //        else if (friendship.SecondUserId == userId)
+        //        {
+        //            listWithFriendIds.Add(friendship.FirstUserId);
+        //        }
+        //    }
 
-            foreach (var friendId in listWithFriendIds)
-            {
-                var friend = usersRepository.GetById(friendId);
+        //    foreach (var friendId in listWithFriendIds)
+        //    {
+        //        var friend = usersRepository.GetById(friendId);
 
-                if (friend is null == false) listWithFriends.Add(friend);
+        //        if (friend is null == false) listWithFriends.Add(friend);
 
-            }
+        //    }
 
-            return Ok(listWithFriends);
-        }
+        //    return Ok(listWithFriends);
+        //}
 
         [HttpPost]
         public ActionResult AddUser(string username)
@@ -101,28 +101,28 @@ namespace Chatman.Api.Controllers
             return Ok("User with name: " + username + " was successfully added");
         }
 
-        [HttpPost]
-        [Route("friend")]
-        public IActionResult AddFriend([FromBody] AddFriendRequestModel addFriendRequestModel)
-        {
-            var firstUserId = new UserId(addFriendRequestModel.CurrentUserId);
-            var secondUserId = new UserId(addFriendRequestModel.UserToBeAddedId);
+        //[HttpPost]
+        //[Route("friend")]
+        //public IActionResult AddFriend([FromBody] AddFriendRequestModel addFriendRequestModel)
+        //{
+        //    var firstUserId = new UserId(addFriendRequestModel.CurrentUserId);
+        //    var secondUserId = new UserId(addFriendRequestModel.UserToBeAddedId);
 
-            var firstUser = usersRepository.GetById(firstUserId);
-            var secondUser = usersRepository.GetById(secondUserId);
+        //    var firstUser = usersRepository.GetById(firstUserId);
+        //    var secondUser = usersRepository.GetById(secondUserId);
 
-            if (firstUser == null || secondUser == null)
-                return BadRequest();
+        //    if (firstUser == null || secondUser == null)
+        //        return BadRequest();
 
-            Friendship friendship = new Friendship(firstUserId,secondUserId);
+        //    Friendship friendship = new Friendship(firstUserId,secondUserId);
 
-            bool found = friendshipsRepo.GetAll().Any(x => x == friendship);
+        //    bool found = friendshipsRepo.GetAll().Any(x => x == friendship);
 
-            if (found)
-                return BadRequest("The friendship that you are trying to create already exists");
+        //    if (found)
+        //        return BadRequest("The friendship that you are trying to create already exists");
 
-            friendshipsRepo.Add(friendship);
-            return Ok("Friendship successfully created");
-        }
+        //    friendshipsRepo.Add(friendship);
+        //    return Ok("Friendship successfully created");
+        //}
     }
 }
