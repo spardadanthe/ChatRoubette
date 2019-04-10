@@ -29,14 +29,15 @@ namespace Chatman.Api.Controllers
         [Route("{id}")]
         public ActionResult<Conversation> GetById(string id)
         {
-            var conversation = convRepository.GetAll().SingleOrDefault(x => x.Id.Value == id);
+            //var conversation = convRepository.GetAll().SingleOrDefault(x => x.Id.Value == id);
+            var conversation = convRepository.GetById(new BaseId(id));
 
             return Ok(conversation);
         }
 
         [HttpPost]
         public ActionResult Add(ConversationRequestModel conv)
-        {
+       {
             var convId = new ConversationId(conv.Id);
             var userIds = new List<UserId>();
             var ownerId = new UserId(conv.OwnerId);
