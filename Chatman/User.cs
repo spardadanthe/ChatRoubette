@@ -22,6 +22,7 @@ namespace Chatman
         }
 
         public string Username { get; private set; }
+
         public ICollection<UserId> FriendIds { get; private set; }
 
         public bool AddFriend(UserId friendId)

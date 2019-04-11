@@ -12,8 +12,6 @@ namespace Chatman.Persistence.EF.Dtos
         public string Text { get; set; }
         public DateTime Date { get; set; }
 
-        [ForeignKey("Id")]
-        public string ConversationId { get; set; }
         public ConversationDto Conversation { get; set; }
 
     }

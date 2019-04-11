@@ -17,14 +17,5 @@ namespace Chatman.Persistence.EF.Profiles
         }
     }
 
-    public class ConversationProfile : Profile
-    {
-        public ConversationProfile()
-        {
-            CreateMap<Conversation, ConversationDto>();
-            CreateMap<ConversationDto, Conversation>();
-        }
-    }
-
 
 }

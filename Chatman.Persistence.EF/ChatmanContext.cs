@@ -18,15 +18,10 @@ namespace Chatman.Persistence.EF
         public DbSet<FriendshipDto> Friendships { get; set; }
         public DbSet<MessageDto> Messages { get; set; }
 
-        public DbSet<ConversationBlockedUsers> BlockedUsers { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-
-
-           
+            //modelBuilder.Entity<FriendshipDto>()
+            //    .HasKey(k => new { k.FirstUserId, k.SecondUserId });
         }
-
     }
 }

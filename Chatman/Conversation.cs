@@ -6,6 +6,8 @@ namespace Chatman
 {
     public class Conversation : BaseEntity
     {
+        [Obsolete("Serialization Use Only")]
+        private Conversation(){ }
         public Conversation(ICollection<UserId> usersParticipatingIds,UserId ownerId)
             : this(new ConversationId(Guid.NewGuid().ToString()), usersParticipatingIds,ownerId) { }
 

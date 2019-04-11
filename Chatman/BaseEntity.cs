@@ -6,6 +6,11 @@ namespace Chatman
 {
     public class BaseEntity
     {
+        public BaseEntity()
+        {
+
+        }
+
         public BaseEntity(IBaseId id)
         {
             Id = id ?? throw new ArgumentNullException(nameof(id));

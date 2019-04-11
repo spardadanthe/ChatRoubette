@@ -7,15 +7,22 @@ namespace Chatman.Persistence.EF.Dtos
 {
     public class UserDto : IDtoId
     {
-        
+        public UserDto()
+        {
+        }
+
+
         [Key]
         public string Id { get; set; }
 
         [Required]
         public string Username { get; set; }
 
-        public ConversationDto Conversation { get; set; }
-        public ICollection<ConversationBlockedUsers> BlockedUsers { get; set; }
+        public ICollection<ConversationDto> Conversations { get; set; }
+
+        //public ConversationDto Conversation { get; set; }
+        //public ICollection<ConversationUsersParticipating> ConversationUsersParticipating { get; set; }
+        //public ICollection<ConversationBlockedUsers> BlockedUsers { get; set; }
     }
 
     
