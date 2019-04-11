@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chatman.Persistence.EF.Dtos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Chatman.Persistence.EF.Dtos
 {
-    public class ConversationBlockedUsers
+    public class ConversationUser : IDtoId
     {
         [Key]
         public string Id { get; set; }

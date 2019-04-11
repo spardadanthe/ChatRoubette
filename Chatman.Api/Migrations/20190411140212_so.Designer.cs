@@ -4,38 +4,22 @@ using Chatman.Persistence.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Chatman.Api.Migrations
 {
     [DbContext(typeof(ChatmanContext))]
-    partial class ChatmanContextModelSnapshot : ModelSnapshot
+    [Migration("20190411140212_so")]
+    partial class so
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationBlockedUsers", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ConversationId");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ConversationId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ConversationBlockedUsers");
-                });
 
             modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationDto", b =>
                 {
@@ -119,17 +103,6 @@ namespace Chatman.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationBlockedUsers", b =>
-                {
-                    b.HasOne("Chatman.Persistence.EF.Dtos.ConversationDto", "Conversation")
-                        .WithMany("BlockedUsers")
-                        .HasForeignKey("ConversationId");
-
-                    b.HasOne("Chatman.Persistence.EF.Dtos.UserDto", "User")
-                        .WithMany("BlockedUsers")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationDto", b =>

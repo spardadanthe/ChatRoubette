@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Chatman.Persistence.EF.Dtos
 {
-    public class FriendshipDto
+    public class FriendshipDto : IDtoId
     {
         [Key]
         public string Id { get; set; }
