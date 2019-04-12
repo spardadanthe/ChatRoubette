@@ -112,7 +112,7 @@ namespace Chatman.Api.Controllers
             var secondUser = usersRepository.GetById(secondUserId);
 
             if (firstUser == null || secondUser == null)
-                return BadRequest();
+                return NotFound("Friendship was not found");
 
             Friendship friendship = new Friendship(firstUserId, secondUserId);
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Chatman.Api.RequestModels;
+using Chatman.Api.ResponseModels;
 using Microsoft.AspNetCore.Mvc;
 using Persistence.Interfaces;
 
@@ -20,9 +21,12 @@ namespace Chatman.Api.Controllers
         [HttpGet]
         public ActionResult<ICollection<Conversation>> Get()
         {
-            ICollection<Conversation> allConvs = convRepository.GetAll();
+            ICollection<Conversation> allConversations = convRepository.GetAll();
+            if (allConversations is null) return NotFound("There are currently no conversations");
 
-            return Ok(allConvs);
+            ICollection<ConversationResponseModel> response = ConvResponseModelConverter(allConversations);
+
+            return Ok(response);
         }
 
         [HttpGet]
@@ -48,7 +52,6 @@ namespace Chatman.Api.Controllers
             {
                 var userParticipatingId = new UserId(id);
                 usersParticipatingIds.Add(userParticipatingId);
-
             }
 
             Conversation convToBeAdded = new Conversation(convId, usersParticipatingIds,ownerId);
@@ -58,6 +61,24 @@ namespace Chatman.Api.Controllers
 
             convRepository.Add(convToBeAdded);
             return Ok();
+        }
+
+        private ICollection<ConversationResponseModel> ConvResponseModelConverter(ICollection<Conversation> allConversations)
+        {
+            var conversationResponseModels = new List<ConversationResponseModel>();
+
+            foreach (var conversation in allConversations)
+            {
+                var blockedUsersIds = conversation.BlockedUsersIds.Select(x=>x.Value);
+                var usersParticipatingIds = conversation.BlockedUsersIds.Select(x => x.Value);
+                
+                var conversationResponseModel = new ConversationResponseModel(conversation.Id.Value,
+                    conversation.OwnerId.Value, blockedUsersIds, usersParticipatingIds);
+
+                conversationResponseModels.Add(conversationResponseModel);
+            }
+
+            return conversationResponseModels;
         }
     }
 }

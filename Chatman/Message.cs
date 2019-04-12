@@ -4,6 +4,10 @@ namespace Chatman
 {
     public class Message : BaseEntity
     {
+        [Obsolete("Serialization Use Only")]
+        private Message()
+        { }
+
         public Message(UserId senderId, ConversationId convId, string text) : this(new BaseId(Guid.NewGuid().ToString()), senderId, convId, text)
         {
         }

@@ -4,50 +4,6 @@ using System.Text;
 
 namespace Chatman
 {
-    //public class Api_AppService_Application
-    //{
-    //    private readonly DbContext context;
-
-    //    public Api_AppService_Application(DbContext context)
-    //    {
-    //        this.context = context;
-    //    }
-
-
-    //    public void DoSomething(string asd)
-    //    {
-    //        var state = context.Load<BusinnessObjectState>();
-    //        BusinessObject bo = new BusinessObject(state);
-    //        bo.DoSomethingMeaningful(asd);
-    //        context.Save(state);
-    //    }
-    //}
-
-    //public class BusinessObject
-    //{
-    //    private readonly BusinnessObjectState state;
-
-    //    public BusinessObject(BusinnessObjectState state)
-    //    {
-    //        this.state = state;
-    //    }
-
-    //    public void DoSomethingMeaningful(string asd)
-    //    {
-    //        state.GG = asd;
-    //    }
-    //}
-
-    //public class BusinnessObjectState
-    //{
-    //    public UserId UserId { get; set; }
-
-    //    public string GG { get; set; }
-
-    //    []
-    //    public int MyProperty { get; set; }
-    //}
-
     public class Friendship : BaseEntity
     {
         public Friendship(UserId firstUserId, UserId secondUserId) : this(new FriendshipId(Guid.NewGuid().ToString()), firstUserId, secondUserId)
@@ -100,6 +56,8 @@ namespace Chatman
 
         public override bool Equals(object obj)
         {
+            //if (obj is Friendship == false) return false;
+
             bool firstCondition = (FirstUserId == ((Friendship)obj).FirstUserId) && (SecondUserId == ((Friendship)obj).SecondUserId);
             bool secondCondition = (FirstUserId == ((Friendship)obj).SecondUserId) && (SecondUserId == ((Friendship)obj).FirstUserId);
 

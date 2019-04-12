@@ -19,8 +19,6 @@ namespace Chatman.Persistence.EF.Dtos
         public string Username { get; set; }
 
         public ICollection<ConversationDto> Conversations { get; set; }
-
-        //public ConversationDto Conversation { get; set; }
         public ICollection<ConversationUser> ConversationUsers { get; set; }
         public ICollection<ConversationBlockedUsers> BlockedUsers { get; set; }
     }
