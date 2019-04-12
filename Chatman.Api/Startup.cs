@@ -50,8 +50,8 @@ namespace Chatman.Api
 
             services.AddTransient<IRepository<User>, EfRepository<User,UserDto>>();
             services.AddTransient<IRepository<Conversation>, EfRepository<Conversation, ConversationDto>>();
-            //services.AddTransient<IRepository<Friendship>, EfRepository<Friendship,FriendshipDto>>();
-            //services.AddTransient<IRepository<Message>, EfRepository<Message,MessageDto>>();
+            services.AddTransient<IRepository<Friendship>, EfRepository<Friendship, FriendshipDto>>();
+            services.AddTransient<IRepository<Message>, EfRepository<Message, MessageDto>>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

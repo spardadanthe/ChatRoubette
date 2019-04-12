@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chatman.Api.Migrations
 {
     [DbContext(typeof(ChatmanContext))]
-    [Migration("20190411140212_so")]
-    partial class so
+    [Migration("20190412101626_soopk")]
+    partial class soopk
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,24 @@ namespace Chatman.Api.Migrations
                 .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationBlockedUsers", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConversationId");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConversationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ConversationBlockedUsers");
+                });
 
             modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationDto", b =>
                 {
@@ -77,17 +95,22 @@ namespace Chatman.Api.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ConversationId");
+                    b.Property<string>("ConversationId")
+                        .IsRequired();
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("SenderId");
+                    b.Property<string>("SenderId")
+                        .IsRequired();
 
-                    b.Property<string>("Text");
+                    b.Property<string>("Text")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("ConversationId");
+
+                    b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
                 });
@@ -103,6 +126,17 @@ namespace Chatman.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationBlockedUsers", b =>
+                {
+                    b.HasOne("Chatman.Persistence.EF.Dtos.ConversationDto", "Conversation")
+                        .WithMany("BlockedUsers")
+                        .HasForeignKey("ConversationId");
+
+                    b.HasOne("Chatman.Persistence.EF.Dtos.UserDto", "User")
+                        .WithMany("BlockedUsers")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationDto", b =>
@@ -139,7 +173,13 @@ namespace Chatman.Api.Migrations
                 {
                     b.HasOne("Chatman.Persistence.EF.Dtos.ConversationDto", "Conversation")
                         .WithMany()
-                        .HasForeignKey("ConversationId");
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Chatman.Persistence.EF.Dtos.UserDto", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

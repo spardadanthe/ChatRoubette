@@ -68,6 +68,10 @@ namespace Chatman
 
         public static bool operator ==(Friendship f1,Friendship f2)
         {
+            if (f2 is null)
+            {
+                return false;
+            }
             bool firstCondition = (f1.FirstUserId == f2.FirstUserId) && (f1.SecondUserId == f2.SecondUserId);
             bool secondCondition = (f1.FirstUserId == f2.SecondUserId) && (f1.SecondUserId == f2.FirstUserId);
 
@@ -80,6 +84,11 @@ namespace Chatman
 
         public static bool operator !=(Friendship f1,Friendship f2)
         {
+            if (f2 is null)
+            {
+                return true;
+            }
+
             bool firstCondition = (f1.FirstUserId == f2.FirstUserId) && (f1.SecondUserId == f2.SecondUserId);
             bool secondCondition = (f1.FirstUserId == f2.SecondUserId) && (f1.SecondUserId == f2.FirstUserId);
 

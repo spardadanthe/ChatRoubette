@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chatman.Api.Migrations
 {
     [DbContext(typeof(ChatmanContext))]
-    [Migration("20190411140748_sopl")]
-    partial class sopl
+    [Migration("20190412095507_soo")]
+    partial class soo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -95,17 +95,22 @@ namespace Chatman.Api.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ConversationId");
+                    b.Property<string>("ConversationId")
+                        .IsRequired();
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("SenderId");
+                    b.Property<string>("SenderId")
+                        .IsRequired();
 
-                    b.Property<string>("Text");
+                    b.Property<string>("Text")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("ConversationId");
+
+                    b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
                 });
@@ -168,7 +173,13 @@ namespace Chatman.Api.Migrations
                 {
                     b.HasOne("Chatman.Persistence.EF.Dtos.ConversationDto", "Conversation")
                         .WithMany()
-                        .HasForeignKey("ConversationId");
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Chatman.Persistence.EF.Dtos.UserDto", "Sender")
+                        .WithMany()
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -10,14 +10,14 @@ using System.Reflection;
 
 namespace Chatman.Persistence.EF.Repositories
 {
-    public class EfRepository<TBusinessModel,DtoModel> : IRepository<TBusinessModel> 
+    public class EfRepository<TBusinessModel, DtoModel> : IRepository<TBusinessModel>
         where TBusinessModel : BaseEntity
-        where DtoModel : class, IDtoId 
+        where DtoModel : class, IDtoId
     {
         private readonly ChatmanContext _context;
         private readonly IMapper mapper;
 
-        public EfRepository(ChatmanContext context,IMapper mapper)
+        public EfRepository(ChatmanContext context, IMapper mapper)
         {
             _context = context;
             this.mapper = mapper;
@@ -32,7 +32,7 @@ namespace Chatman.Persistence.EF.Repositories
 
             _context.Set<DtoModel>().Add(mapped);
             _context.SaveChanges();
-        } 
+        }
 
         public ICollection<TBusinessModel> GetAll()
         {
@@ -40,14 +40,19 @@ namespace Chatman.Persistence.EF.Repositories
             var result = mapper.Map<ICollection<TBusinessModel>>(all);
 
             return result;
-                
+
         }
 
         public TBusinessModel GetById(IBaseId id)
         {
             if (id is null) throw new ArgumentNullException(nameof(id));
 
-            var model = _context.Set<DtoModel>().FirstOrDefault(x => x.Id == id.Value);
+            var query = _context.Set<DtoModel>().AsQueryable();
+
+            foreach (var property in _context.Model.FindEntityType(typeof(DtoModel)).GetNavigations())
+                query = query.Include(property.Name);
+
+            var model = query.FirstOrDefault(x => x.Id == id.Value);
 
             var mappedModel = mapper.Map<TBusinessModel>(model);
 

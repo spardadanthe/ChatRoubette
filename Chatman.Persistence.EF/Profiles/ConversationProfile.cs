@@ -15,7 +15,8 @@ namespace Chatman.Persistence.EF.Profiles
 
             CreateMap<BaseId, UserId>().ConstructUsing(f => new UserId(f.Value));
             CreateMap<Conversation, ConversationDto>();
-            CreateMap<ConversationDto, Conversation>();
+            CreateMap<ConversationDto, Conversation>()
+                .ForMember(x => x.OwnerId, opt => opt.MapFrom(src => src.OwnerId));
             CreateMap<BaseId, UserId>();
         }
     }

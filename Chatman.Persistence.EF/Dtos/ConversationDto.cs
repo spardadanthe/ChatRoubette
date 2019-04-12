@@ -12,9 +12,14 @@ namespace Chatman.Persistence.EF.Dtos
         public string Id { get; set; }
 
         [Required]
+        public string OwnerId { get; set; }
+
+        [Required]
+        [ForeignKey("OwnerId")]
         public UserDto Owner { get; set; }
 
-        ICollection<UserDto> Users { get; set; }
+        //public ICollection<UserDto> Users { get; set; }
+        public ICollection<MessageDto> Messages { get; set; }
 
         public ICollection<ConversationBlockedUsers> BlockedUsers { get; set; }
         public ICollection<ConversationUser> ConversationUsers{ get; set; }
