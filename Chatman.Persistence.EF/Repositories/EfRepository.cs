@@ -34,7 +34,7 @@ namespace Chatman.Persistence.EF.Repositories
             _context.SaveChanges();
         }
 
-        public ICollection<TBusinessModel> GetAll()
+        public IEnumerable<TBusinessModel> GetAll()
         {
             var all = _context.Set<DtoModel>().ToList();
             var result = mapper.Map<ICollection<TBusinessModel>>(all);

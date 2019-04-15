@@ -11,7 +11,7 @@ namespace InMemoryPersistence.Repositories
     {
         private readonly ICollection<T> storage = new List<T>();
 
-        public ICollection<T> GetAll()
+        public IEnumerable<T> GetAll()
         {
             return storage;
         }

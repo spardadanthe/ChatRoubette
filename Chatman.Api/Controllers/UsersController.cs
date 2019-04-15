@@ -21,7 +21,7 @@ namespace Chatman.Api.Controllers
         [HttpGet]
         public ActionResult<ICollection<User>> GetAll()
         {
-            ICollection<User> allUsers = usersRepository.GetAll();
+            IEnumerable<User> allUsers = usersRepository.GetAll();
 
             return Ok(allUsers);
         }
@@ -60,7 +60,7 @@ namespace Chatman.Api.Controllers
             var listWithFriendIds = new List<UserId>();
             var listWithFriends = new List<User>();
 
-            ICollection<Friendship> listOfFriendships = friendshipsRepo.GetAll();
+            IEnumerable<Friendship> listOfFriendships = friendshipsRepo.GetAll();
 
             foreach (var friendship in listOfFriendships)
             {

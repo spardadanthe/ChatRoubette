@@ -21,10 +21,10 @@ namespace Chatman.Api.Controllers
         [HttpGet]
         public ActionResult<ICollection<ConversationResponseModel>> Get()
         {
-            ICollection<Conversation> allConversations = convRepository.GetAll();
+            IEnumerable<Conversation> allConversations = convRepository.GetAll();
             if (allConversations is null) return NotFound("There are currently no conversations");
 
-            ICollection<ConversationResponseModel> response = ListConvResponseModelConverter(allConversations);
+            IEnumerable<ConversationResponseModel> response = ListConvResponseModelConverter(allConversations);
 
             return Ok(response);
         }
@@ -66,7 +66,7 @@ namespace Chatman.Api.Controllers
             return Ok();
         }
 
-        private ICollection<ConversationResponseModel> ListConvResponseModelConverter(ICollection<Conversation> allConversations)
+        private IEnumerable<ConversationResponseModel> ListConvResponseModelConverter(IEnumerable<Conversation> allConversations)
         {
             var conversationResponseModels = new List<ConversationResponseModel>();
 

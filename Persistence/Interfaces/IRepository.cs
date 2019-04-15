@@ -5,7 +5,7 @@ namespace Persistence.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        ICollection<T> GetAll();
+        IEnumerable<T> GetAll();
 
         T GetById(IBaseId id);
 
