@@ -1,17 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Chatman.Api.ResponseModels
 {
     public class ConversationResponseModel
     {
-        public ConversationResponseModel(string id,string ownerId,
-            IEnumerable<string> blockedUsersIds, IEnumerable<string> usersparticipatingIds)
+        public ConversationResponseModel(Conversation conversation)
         {
-            Id = id;
-            OwnerId = ownerId;
-            BlockedUsersIds = blockedUsersIds;
-            UsersParticipatingIds = usersparticipatingIds;
+            if (conversation is null) throw new ArgumentNullException(nameof(conversation));
+
+            Id = conversation.Id.Value;
+            OwnerId = conversation.OwnerId.Value;
+
+            if (conversation.BlockedUsersIds is null == false)
+            {
+                BlockedUsersIds = conversation.BlockedUsersIds.Select(x => x.Value);
+            }
+
+            if (conversation.UsersParticipatingIds is null == false)
+            {
+                UsersParticipatingIds = conversation.BlockedUsersIds.Select(x => x.Value);
+            }
         }
 
         public string Id { get; private set; }

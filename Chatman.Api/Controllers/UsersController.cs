@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Chatman.Api.ResponseModels;
 using Microsoft.AspNetCore.Mvc;
 using Persistence.Interfaces;
 
@@ -19,42 +20,55 @@ namespace Chatman.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<ICollection<User>> GetAll()
+        public ActionResult<ICollection<UserResponseModel>> GetAll()
         {
             IEnumerable<User> allUsers = usersRepository.GetAll();
 
-            return Ok(allUsers);
+            List<UserResponseModel> response = new List<UserResponseModel>();
+
+            foreach (var user in allUsers)
+            {
+                response.Add(new UserResponseModel(user));
+            }
+
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("{id}")]
-        public ActionResult<User> GetById(string id)
+        public ActionResult<UserResponseModel> GetById(string id)
         {
             if (string.IsNullOrEmpty(id)) return BadRequest();
 
             UserId userId = new UserId(id);
             User user = usersRepository.GetById(userId);
 
-            return Ok(user);
+            if (user is null) return NotFound("There is no user with such id");
+
+            UserResponseModel response = new UserResponseModel(user);
+
+            return Ok(response);
         }
 
 
         [HttpGet]
         [Route("username/{username}")]
-        public ActionResult<User> GetByUsername(string username)
+        public ActionResult<UserResponseModel> GetByUsername(string username)
         {
             if (string.IsNullOrEmpty(username)) return BadRequest();
 
             User user = usersRepository.GetAll().FirstOrDefault(x => x.Username == username);
 
-            if (user is null) return BadRequest("There is no user with that username");
+            if (user is null) return BadRequest("There is no user with that username");;
 
-            return user;
+            UserResponseModel response = new UserResponseModel(user);
+
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("{id}/friends")]
-        public ActionResult<IEnumerable<User>> GetFriendsByUserId(string id)
+        public ActionResult<IEnumerable<UserResponseModel>> GetFriendsByUserId(string id)
         {
             var userId = new UserId(id);
             var listWithFriendIds = new List<UserId>();
@@ -62,7 +76,7 @@ namespace Chatman.Api.Controllers
 
             IEnumerable<Friendship> listOfFriendships = friendshipsRepo.GetAll();
 
-            foreach (var friendship in listOfFriendships)
+            foreach (Friendship  friendship in listOfFriendships)
             {
                 if (friendship.FirstUserId == userId)
                 {
@@ -74,15 +88,21 @@ namespace Chatman.Api.Controllers
                 }
             }
 
-            foreach (var friendId in listWithFriendIds)
+            foreach (UserId friendId in listWithFriendIds)
             {
                 var friend = usersRepository.GetById(friendId);
 
                 if (friend is null == false) listWithFriends.Add(friend);
-
             }
 
-            return Ok(listWithFriends);
+            List<UserResponseModel> result = new List<UserResponseModel>();
+
+            foreach (User friend in listWithFriends)
+            {
+                result.Add(new UserResponseModel(friend));
+            }
+
+            return Ok(result);
         }
 
         [HttpPost]
@@ -112,7 +132,7 @@ namespace Chatman.Api.Controllers
             var secondUser = usersRepository.GetById(secondUserId);
 
             if (firstUser == null || secondUser == null)
-                return NotFound("Friendship was not found");
+                return NotFound("There are no users with such ids");
 
             Friendship friendship = new Friendship(firstUserId, secondUserId);
 

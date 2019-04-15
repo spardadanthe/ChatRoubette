@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Chatman.Api.RequestModels;
+using Chatman.Api.ResponseModels;
 using Microsoft.AspNetCore.Mvc;
 using Persistence.Interfaces;
 
@@ -22,12 +24,15 @@ namespace Chatman.Api.Controllers
         {
             if (string.IsNullOrEmpty(messageId)) return BadRequest("There is no message with such id");
 
-            var found = messageRepo.GetAll().Any(x => x.Id.Value == messageId);
+            bool found = messageRepo.GetAll().Any(x => x.Id.Value == messageId);
 
             if (found)
             {
-                var message = messageRepo.GetById(new BaseId(messageId));
-                return Ok(message);
+                Message message = messageRepo.GetById(new BaseId(messageId));
+
+                MessageResponseModel response = new MessageResponseModel(message);
+
+                return Ok(response);
             }
 
             return NotFound("Message was not found");
@@ -45,10 +50,17 @@ namespace Chatman.Api.Controllers
             if (messageRepo.GetAll().Any(x => x.ConvId.Value == convId) == false)
                 return NotFound("There are not messages in this conversation");
 
-            var messages = messageRepo.GetAll().
+            IEnumerable<Message> messages = messageRepo.GetAll().
                 Where(x => x.ConvId.Value == convId);
 
-            return Ok(messages);
+            List<MessageResponseModel> response = new List<MessageResponseModel>();
+
+            foreach (Message message in messages)
+            {
+                response.Add(new MessageResponseModel(message));
+            }
+
+            return Ok(response);
 
         }
 

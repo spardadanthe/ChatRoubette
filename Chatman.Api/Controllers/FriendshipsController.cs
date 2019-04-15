@@ -21,7 +21,7 @@ namespace Chatman.Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult Get()
+        public ActionResult<IEnumerable<FriendshipResponseModel>> Get()
         {
             IEnumerable<Friendship> friendships = friendshipsRepo.GetAll();
 
@@ -37,13 +37,15 @@ namespace Chatman.Api.Controllers
 
         [HttpGet]
         [Route("{userId}")]
-        public ActionResult GetByUserId(string userId)
+        public ActionResult<IEnumerable<FriendshipResponseModel>> GetByUserId(string userId)
         {
             var friendships = friendshipsRepo.GetAll()
                 .Where(x => x.FirstUserId.Value == userId || x.SecondUserId.Value == userId);
 
             if (friendships is null || friendships.Any())
                 return NotFound("There is no such friendship");
+
+            List<FriendshipResponseModel> response = ListFriendshipModelConverter(friendships);
 
             return Ok(friendships);
         }
@@ -75,8 +77,7 @@ namespace Chatman.Api.Controllers
 
             foreach (Friendship friendship in friendships)
             {
-                FriendshipResponseModel responseModel = new FriendshipResponseModel
-                    (friendship.FirstUserId.Value, friendship.SecondUserId.Value);
+                FriendshipResponseModel responseModel = new FriendshipResponseModel(friendship);
 
                 result.Add(responseModel);
             }

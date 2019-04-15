@@ -9,7 +9,6 @@ namespace Chatman.Api.Controllers
     {
         public AddFriendRequestModel()
         {
-            
         }
 
         public string CurrentUserId { get; set; }

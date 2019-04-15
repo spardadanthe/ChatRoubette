@@ -33,11 +33,9 @@ namespace Chatman.Api.Controllers
         [Route("{id}")]
         public ActionResult<ConversationResponseModel> GetById(string id)
         {
-            var conversation = convRepository.GetById(new BaseId(id));
+            Conversation conversation = convRepository.GetById(new BaseId(id));
 
-            
-            
-            ConversationResponseModel response = ConvResponseModelConverter(conversation);
+            ConversationResponseModel response = new ConversationResponseModel(conversation);
 
             return Ok(response);
         }
@@ -72,7 +70,7 @@ namespace Chatman.Api.Controllers
 
             foreach (var conversation in allConversations)
             {
-                ConversationResponseModel conversationResponseModel = ConvResponseModelConverter(conversation);
+                ConversationResponseModel conversationResponseModel = new ConversationResponseModel(conversation);
                 
                 conversationResponseModels.Add(conversationResponseModel);
             }
@@ -80,26 +78,6 @@ namespace Chatman.Api.Controllers
             return conversationResponseModels;
         }
 
-        private ConversationResponseModel ConvResponseModelConverter(Conversation conversation)
-        {
-            IEnumerable<string> blockedUsersIds = null;
-            IEnumerable<string> usersParticipatingIds = null;
-
-            if (conversation.BlockedUsersIds is null == false)
-            {
-                blockedUsersIds = conversation.BlockedUsersIds.Select(x => x.Value);
-            }
-
-            if (conversation.UsersParticipatingIds is null == false)
-            {
-                usersParticipatingIds = conversation.BlockedUsersIds.Select(x => x.Value);
-            }
-
-            var conversationResponseModel = new ConversationResponseModel(conversation.Id.Value,
-                conversation.OwnerId.Value, blockedUsersIds, usersParticipatingIds);
-
-            return conversationResponseModel;
-
-        }
+        
     }
 }
