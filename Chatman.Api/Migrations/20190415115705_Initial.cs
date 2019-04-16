@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Chatman.Api.Migrations
 {
-    public partial class soo : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +11,7 @@ namespace Chatman.Api.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     Username = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -23,7 +23,7 @@ namespace Chatman.Api.Migrations
                 name: "Conversations",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(type: "nvarchar(100)", nullable: false),
                     OwnerId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -34,7 +34,7 @@ namespace Chatman.Api.Migrations
                         column: x => x.OwnerId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,13 +91,12 @@ namespace Chatman.Api.Migrations
                 name: "ConversationUser",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    ConversationId = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    ConversationId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ConversationUser", x => x.Id);
+                    table.PrimaryKey("PK_ConversationUser", x => new { x.ConversationId, x.UserId });
                     table.ForeignKey(
                         name: "FK_ConversationUser_Conversations_ConversationId",
                         column: x => x.ConversationId,
@@ -136,7 +135,7 @@ namespace Chatman.Api.Migrations
                         column: x => x.SenderId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -153,11 +152,6 @@ namespace Chatman.Api.Migrations
                 name: "IX_Conversations_OwnerId",
                 table: "Conversations",
                 column: "OwnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ConversationUser_ConversationId",
-                table: "ConversationUser",
-                column: "ConversationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ConversationUser_UserId",

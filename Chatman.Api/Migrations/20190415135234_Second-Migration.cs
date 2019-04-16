@@ -2,7 +2,7 @@
 
 namespace Chatman.Api.Migrations
 {
-    public partial class soopk : Migration
+    public partial class SecondMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

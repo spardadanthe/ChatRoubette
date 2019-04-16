@@ -40,7 +40,9 @@ namespace Chatman.Api.Migrations
             modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationDto", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Id")
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("OwnerId")
                         .IsRequired();
@@ -54,16 +56,11 @@ namespace Chatman.Api.Migrations
 
             modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<string>("ConversationId");
 
                     b.Property<string>("UserId");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("ConversationId");
+                    b.HasKey("ConversationId", "UserId");
 
                     b.HasIndex("UserId");
 
@@ -116,7 +113,9 @@ namespace Chatman.Api.Migrations
             modelBuilder.Entity("Chatman.Persistence.EF.Dtos.UserDto", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Id")
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Username")
                         .IsRequired();
@@ -149,11 +148,13 @@ namespace Chatman.Api.Migrations
                 {
                     b.HasOne("Chatman.Persistence.EF.Dtos.ConversationDto", "Conversation")
                         .WithMany("ConversationUsers")
-                        .HasForeignKey("ConversationId");
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Chatman.Persistence.EF.Dtos.UserDto", "User")
                         .WithMany("ConversationUsers")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Chatman.Persistence.EF.Dtos.FriendshipDto", b =>
@@ -170,7 +171,7 @@ namespace Chatman.Api.Migrations
             modelBuilder.Entity("Chatman.Persistence.EF.Dtos.MessageDto", b =>
                 {
                     b.HasOne("Chatman.Persistence.EF.Dtos.ConversationDto", "Conversation")
-                        .WithMany()
+                        .WithMany("Messages")
                         .HasForeignKey("ConversationId")
                         .OnDelete(DeleteBehavior.Cascade);
 

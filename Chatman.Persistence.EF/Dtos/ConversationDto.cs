@@ -9,6 +9,7 @@ namespace Chatman.Persistence.EF.Dtos
     public class ConversationDto : IDtoId
     {
         [Key]
+        [Column("Id", TypeName = "nvarchar(100)")]
         public string Id { get; set; }
 
         [Required]
@@ -18,11 +19,10 @@ namespace Chatman.Persistence.EF.Dtos
         [ForeignKey("OwnerId")]
         public UserDto Owner { get; set; }
 
-        //public ICollection<UserDto> Users { get; set; }
-        public ICollection<MessageDto> Messages { get; set; }
+        public IEnumerable<MessageDto> Messages { get; set; }
 
-        public ICollection<ConversationBlockedUsers> BlockedUsers { get; set; }
-        public ICollection<ConversationUser> ConversationUsers{ get; set; }
+        public IEnumerable<ConversationBlockedUsers> BlockedUsers { get; set; }
+        public IEnumerable<ConversationUser> ConversationUsers{ get; set; }
 
     }
 }

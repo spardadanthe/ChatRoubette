@@ -24,6 +24,7 @@ namespace Chatman
         }
 
         public UserId SenderId { get; private set; }
+        public User Sender { get; private set; }
         public ConversationId ConvId { get; private set; }
         public string Text { get; private set; }
         public DateTime Date { get; private set; }

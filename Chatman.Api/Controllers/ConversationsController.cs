@@ -57,7 +57,8 @@ namespace Chatman.Api.Controllers
 
             Conversation convToBeAdded = new Conversation(convId, usersParticipatingIds, ownerId);
 
-            bool found = convRepository.GetAll().Any(x => x.Id == convToBeAdded.Id);
+            bool found = convRepository.GetAll()
+                .Any(x => x.Id.Value.Equals(convToBeAdded.Id.Value));
             if (found) return Ok();
 
             convRepository.Add(convToBeAdded);

@@ -27,8 +27,8 @@ namespace Chatman.Persistence.EF.Repositories
         {
             if (entity is null) throw new ArgumentNullException(nameof(entity));
 
-
             var mapped = mapper.Map<DtoModel>(entity);
+
 
             _context.Set<DtoModel>().Add(mapped);
             _context.SaveChanges();
@@ -36,10 +36,19 @@ namespace Chatman.Persistence.EF.Repositories
 
         public IEnumerable<TBusinessModel> GetAll()
         {
-            var all = _context.Set<DtoModel>().ToList();
-            var result = mapper.Map<ICollection<TBusinessModel>>(all);
+            //var all = _context.Set<DtoModel>().ToList();
+            //var result = mapper.Map<ICollection<TBusinessModel>>(all);
 
-            return result;
+            var query = _context.Set<DtoModel>().AsQueryable();
+
+            foreach (var property in _context.Model.FindEntityType(typeof(DtoModel)).GetNavigations())
+                query = query.Include(property.Name);
+
+            var all = query.ToList();
+
+            var mappedModel = mapper.Map<ICollection<TBusinessModel>>(all);
+
+            return mappedModel;
 
         }
 

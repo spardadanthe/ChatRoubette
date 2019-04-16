@@ -11,6 +11,7 @@ namespace Chatman.Persistence.EF
     {
         public ChatmanContext(DbContextOptions options) : base(options)
         {
+
         }
 
         public DbSet<UserDto> Users { get; set; }
@@ -20,8 +21,40 @@ namespace Chatman.Persistence.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<FriendshipDto>()
-            //    .HasKey(k => new { k.FirstUserId, k.SecondUserId });
+            modelBuilder.Entity<ConversationUser>()
+                .HasKey(k => new { k.ConversationId, k.UserId });
+
+            modelBuilder.Entity<ConversationUser>()
+                .HasOne(conv => conv.Conversation)
+                .WithMany(convUsers => convUsers.ConversationUsers)
+                .HasForeignKey(convUsers => convUsers.ConversationId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            // user -> userConverastions restrict
+            // userconversation -> user NoAction
+            // userCOnversation -> Conversation NoAction
+            // Conversation -> userConversation Cascade
+
+            modelBuilder.Entity<ConversationUser>()
+                .HasOne(convUser => convUser.User)
+                .WithMany(user => user.ConversationUsers)
+                .HasForeignKey(convUser => convUser.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<ConversationBlockedUsers>()
+                .HasKey(x => new { x.ConversationId, x.UserId });
+
+            modelBuilder.Entity<ConversationBlockedUsers>()
+                .HasOne(convBlUsers => convBlUsers.Conversation)
+                .WithMany(convDto => convDto.BlockedUsers)
+                .HasForeignKey(convBlUsers => convBlUsers.ConversationId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<ConversationBlockedUsers>()
+                .HasOne(convBlUsers => convBlUsers.User)
+                .WithMany(userDto => userDto.BlockedUsers)
+                .HasForeignKey(convBlUsers => convBlUsers.UserId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
