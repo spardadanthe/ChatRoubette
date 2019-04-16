@@ -8,9 +8,6 @@ namespace Chatman.Persistence.EF.Dtos
 {
     public class ConversationBlockedUsers
     {
-        [Key]
-        public string Id { get; set; }
-
         public string ConversationId { get; set; }
         [ForeignKey("ConversationId")]
         public ConversationDto Conversation { get; set; }

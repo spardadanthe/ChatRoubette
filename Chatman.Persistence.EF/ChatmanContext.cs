@@ -48,13 +48,13 @@ namespace Chatman.Persistence.EF
                 .HasOne(convBlUsers => convBlUsers.Conversation)
                 .WithMany(convDto => convDto.BlockedUsers)
                 .HasForeignKey(convBlUsers => convBlUsers.ConversationId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ConversationBlockedUsers>()
                 .HasOne(convBlUsers => convBlUsers.User)
                 .WithMany(userDto => userDto.BlockedUsers)
                 .HasForeignKey(convBlUsers => convBlUsers.UserId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
