@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chatman.Api.Migrations
 {
     [DbContext(typeof(ChatmanContext))]
-    [Migration("20190415115705_Initial")]
-    partial class Initial
+    [Migration("20190417114221_Initial-Migration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,22 +21,17 @@ namespace Chatman.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationBlockedUsers", b =>
+            modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationBlockedUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<string>("ConversationId");
 
                     b.Property<string>("UserId");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("ConversationId");
+                    b.HasKey("ConversationId", "UserId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ConversationBlockedUsers");
+                    b.ToTable("ConversationBlockedUser");
                 });
 
             modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationDto", b =>
@@ -131,11 +126,13 @@ namespace Chatman.Api.Migrations
                 {
                     b.HasOne("Chatman.Persistence.EF.Dtos.ConversationDto", "Conversation")
                         .WithMany("BlockedUsers")
-                        .HasForeignKey("ConversationId");
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Chatman.Persistence.EF.Dtos.UserDto", "User")
                         .WithMany("BlockedUsers")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Chatman.Persistence.EF.Dtos.ConversationDto", b =>

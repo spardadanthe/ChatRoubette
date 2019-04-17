@@ -61,7 +61,9 @@ namespace Chatman.Persistence.EF.Repositories
             foreach (var property in _context.Model.FindEntityType(typeof(DtoModel)).GetNavigations())
                 query = query.Include(property.Name);
 
-            var model = query.FirstOrDefault(x => x.Id == id.Value);
+            var model = query.FirstOrDefault(x => x.Id.Equals(id.Value));
+
+            _context.Entry(model).State = EntityState.Detached;
 
             var mappedModel = mapper.Map<TBusinessModel>(model);
 
@@ -72,6 +74,8 @@ namespace Chatman.Persistence.EF.Repositories
         {
             var mappedEntity = mapper.Map<DtoModel>(entity);
             _context.Entry(mappedEntity).State = EntityState.Modified;
+            //_context.Update(mappedEntity);
+            bool a = _context.ChangeTracker.HasChanges();
             _context.SaveChanges();
 
         }

@@ -19,13 +19,13 @@ namespace Chatman.Persistence.EF.Profiles
 
             CreateMap<Conversation, ConversationDto>()
                 .ForMember(x => x.ConversationUsers, y => y.MapFrom(src => src.UsersParticipatingIds))
-                .ForMember(x => x.BlockedUsers,y => y.MapFrom(src => src.BlockedUsersIds));
+                .ForMember(x => x.ConversationBlockedUsers, y => y.MapFrom(src => src.BlockedUsersIds));
 
 
             CreateMap<ConversationDto, Conversation>()
                 .ForMember(x => x.OwnerId, opt => opt.MapFrom(src => src.OwnerId))
                 .ForMember(x => x.UsersParticipatingIds, y => y.MapFrom(src => src.ConversationUsers))
-                .ForMember(x => x.BlockedUsersIds, y => y.MapFrom(src => src.BlockedUsers));
+                .ForMember(x => x.BlockedUsersIds, y => y.MapFrom(src => src.ConversationBlockedUsers));
 
             CreateMap<BaseId, UserId>();
 

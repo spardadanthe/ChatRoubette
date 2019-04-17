@@ -15,18 +15,29 @@ namespace Chatman.Api.ResponseModels
 
             if (conversation.BlockedUsersIds is null == false)
             {
-                BlockedUsersIds = conversation.BlockedUsersIds.Select(x => x.Value);
+                BlockedUsersIds = new List<string>();
+
+                foreach (var userId in conversation.BlockedUsersIds)
+                {
+                    BlockedUsersIds.Add(userId.Value);
+                }
+
+                //BlockedUsersIds = conversation.BlockedUsersIds.Select(x => x.Value).ToList();
             }
 
             if (conversation.UsersParticipatingIds is null == false)
             {
-                UsersParticipatingIds = conversation.BlockedUsersIds.Select(x => x.Value);
+                UsersParticipatingIds = new List<string>();
+                foreach (var userId in conversation.UsersParticipatingIds)
+                {
+                    UsersParticipatingIds.Add(userId.Value);
+                }
             }
         }
 
         public string Id { get; private set; }
         public string OwnerId { get; private set; }
-        public IEnumerable<string> BlockedUsersIds { get; private set; }
-        public IEnumerable<string> UsersParticipatingIds { get; private set; }
+        public List<string> BlockedUsersIds { get; private set; }
+        public List<string> UsersParticipatingIds { get; private set; }
     }
 }

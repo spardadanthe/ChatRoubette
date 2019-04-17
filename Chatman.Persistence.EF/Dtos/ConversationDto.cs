@@ -21,7 +21,7 @@ namespace Chatman.Persistence.EF.Dtos
 
         public IEnumerable<MessageDto> Messages { get; set; }
 
-        public IEnumerable<ConversationBlockedUsers> BlockedUsers { get; set; }
+        public IEnumerable<ConversationBlockedUsers> ConversationBlockedUsers { get; set; }
         public IEnumerable<ConversationUser> ConversationUsers{ get; set; }
 
     }

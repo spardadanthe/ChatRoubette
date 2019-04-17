@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Chatman.Api.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -34,7 +34,7 @@ namespace Chatman.Api.Migrations
                         column: x => x.OwnerId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,13 +66,12 @@ namespace Chatman.Api.Migrations
                 name: "ConversationBlockedUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    ConversationId = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true)
+                    ConversationId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ConversationBlockedUsers", x => x.Id);
+                    table.PrimaryKey("PK_ConversationBlockedUsers", x => new { x.ConversationId, x.UserId });
                     table.ForeignKey(
                         name: "FK_ConversationBlockedUsers_Conversations_ConversationId",
                         column: x => x.ConversationId,
@@ -102,13 +101,13 @@ namespace Chatman.Api.Migrations
                         column: x => x.ConversationId,
                         principalTable: "Conversations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_ConversationUser_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -129,19 +128,14 @@ namespace Chatman.Api.Migrations
                         column: x => x.ConversationId,
                         principalTable: "Conversations",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Messages_Users_SenderId",
                         column: x => x.SenderId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ConversationBlockedUsers_ConversationId",
-                table: "ConversationBlockedUsers",
-                column: "ConversationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ConversationBlockedUsers_UserId",

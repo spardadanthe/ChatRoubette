@@ -11,7 +11,7 @@ namespace Chatman.Persistence.EF
     {
         public ChatmanContext(DbContextOptions options) : base(options)
         {
-
+            
         }
 
         public DbSet<UserDto> Users { get; set; }
@@ -46,13 +46,13 @@ namespace Chatman.Persistence.EF
 
             modelBuilder.Entity<ConversationBlockedUsers>()
                 .HasOne(convBlUsers => convBlUsers.Conversation)
-                .WithMany(convDto => convDto.BlockedUsers)
+                .WithMany(convDto => convDto.ConversationBlockedUsers)
                 .HasForeignKey(convBlUsers => convBlUsers.ConversationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ConversationBlockedUsers>()
                 .HasOne(convBlUsers => convBlUsers.User)
-                .WithMany(userDto => userDto.BlockedUsers)
+                .WithMany(userDto => userDto.ConversationBlockedUsers)
                 .HasForeignKey(convBlUsers => convBlUsers.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
