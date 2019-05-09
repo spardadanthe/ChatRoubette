@@ -9,7 +9,10 @@ namespace Chatman
         [Obsolete("Serialization Use Only")]
         private Conversation(){ }
         public Conversation(ICollection<UserId> usersParticipatingIds,UserId ownerId)
-            : this(new ConversationId(Guid.NewGuid().ToString()), usersParticipatingIds,ownerId) { }
+            : this(new ConversationId(Guid.NewGuid().ToString()), usersParticipatingIds,ownerId)
+        {
+
+        }
 
         public Conversation(ConversationId id, ICollection<UserId> usersParticipatingIds,UserId ownerId,
             ICollection<Message> messages = null) : base(id)
@@ -19,6 +22,9 @@ namespace Chatman
             if (ownerId is null) throw new ArgumentException(nameof(ownerId));
 
             UsersParticipatingIds = usersParticipatingIds;
+
+            BlockedUsersIds = new List<UserId>();
+
             OwnerId = ownerId;
 
             if (messages is null == false)
@@ -32,6 +38,8 @@ namespace Chatman
 
         }
 
+        
+
         public UserId OwnerId { get; private set; }
         public ICollection<UserId> BlockedUsersIds { get; private set; }
         public ICollection<UserId> UsersParticipatingIds { get; private set; }
@@ -40,6 +48,10 @@ namespace Chatman
         public bool AddMessage(Message message)
         {
             if (message is null) return false;
+
+            bool blockedUserPresents = BlockedUsersIds.Any(x => x.Value == message.SenderId.Value);
+
+            if (blockedUserPresents) return false;
 
             History.Add(message);
 

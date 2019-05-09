@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Chatman.Persistence.EF.Dtos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Interfaces;
 using System;
@@ -31,7 +32,7 @@ namespace Chatman.Persistence.EF.Repositories
 
 
             _context.Set<DtoModel>().Add(mapped);
-            _context.SaveChanges();
+            _context.SaveChanges(); 
         }
 
         public IEnumerable<TBusinessModel> GetAll()
@@ -63,21 +64,48 @@ namespace Chatman.Persistence.EF.Repositories
 
             var model = query.FirstOrDefault(x => x.Id.Equals(id.Value));
 
-            _context.Entry(model).State = EntityState.Detached;
+            //_context.Entry(model).State = EntityState.Detached;
 
             var mappedModel = mapper.Map<TBusinessModel>(model);
 
             return mappedModel;
         }
 
+        private DtoModel GetByIdAsDto(IBaseId id)
+        {
+            if (id is null) throw new ArgumentNullException(nameof(id));
+
+            var query = _context.Set<DtoModel>().AsQueryable();
+
+            foreach (var property in _context.Model.FindEntityType(typeof(DtoModel)).GetNavigations())
+                query = query.Include(property.Name);
+
+            var model = query.FirstOrDefault(x => x.Id.Equals(id.Value));
+
+            return model;
+        }
+
         public void Update(TBusinessModel entity)
         {
-            var mappedEntity = mapper.Map<DtoModel>(entity);
-            _context.Entry(mappedEntity).State = EntityState.Modified;
-            //_context.Update(mappedEntity);
-            bool a = _context.ChangeTracker.HasChanges();
+            var dto = GetByIdAsDto(entity.Id);
+            var mappedEntity = mapper.Map(entity,dto);
+
+            //foreach (var prop in _context.Entry(mappedEntity).Collections)
+            //{
+            //    if(prop.CurrentValue is null == false)
+            //    {
+            //        foreach (var val in prop.CurrentValue)
+            //        {
+            //            var a = _context.Entry(val).State;
+            //            _context.Attach(val);
+            //        }
+            //    }
+
+            //}
+
             _context.SaveChanges();
 
+            
         }
 
 

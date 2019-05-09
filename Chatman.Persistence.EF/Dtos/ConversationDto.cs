@@ -8,6 +8,11 @@ namespace Chatman.Persistence.EF.Dtos
 {
     public class ConversationDto : IDtoId
     {
+        public ConversationDto()
+        {
+            ConversationBlockedUsers = new List<ConversationBlockedUsers>();
+        }
+
         [Key]
         [Column("Id", TypeName = "nvarchar(100)")]
         public string Id { get; set; }

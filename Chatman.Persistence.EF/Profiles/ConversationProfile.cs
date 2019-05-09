@@ -15,6 +15,9 @@ namespace Chatman.Persistence.EF.Profiles
             CreateMap<string, UserId>()
                 .ConvertUsing(f => new UserId(f));
 
+            CreateMap<UserId, string>()
+                .ConvertUsing(id => id.Value);
+
             CreateMap<BaseId, UserId>().ConstructUsing(f => new UserId(f.Value));
 
             CreateMap<Conversation, ConversationDto>()
@@ -32,6 +35,10 @@ namespace Chatman.Persistence.EF.Profiles
             CreateMap<UserId, ConversationUser>()
                 .ConstructUsing(userId => new ConversationUser { UserId = userId.Value });
 
+            CreateMap<IEnumerable<UserId>, IEnumerable<ConversationUser>>()
+                .ConstructUsing(userIds => userIds.Select(x => new ConversationUser { UserId = x.Value }).ToList());
+            
+
             CreateMap<ConversationUser, UserId>()
                 .ConstructUsing(cu => new UserId(cu.UserId));
 
@@ -40,6 +47,9 @@ namespace Chatman.Persistence.EF.Profiles
 
             CreateMap<ConversationBlockedUsers, UserId>()
                 .ConstructUsing(cbu => new UserId(cbu.UserId));
+
+            CreateMap<ICollection<UserId>, ICollection<ConversationUser>>()
+                      .ConstructUsing(userIds => userIds.Select(x => new ConversationUser { UserId = x.Value }).ToList());
 
 
 

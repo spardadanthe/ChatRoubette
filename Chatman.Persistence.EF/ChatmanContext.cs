@@ -1,14 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.Design;
 using Chatman.Persistence.EF.Dtos;
 
 namespace Chatman.Persistence.EF
 {
     public class ChatmanContext : DbContext
-    {
+    { 
         public ChatmanContext(DbContextOptions options) : base(options)
         {
             

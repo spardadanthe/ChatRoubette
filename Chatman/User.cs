@@ -33,5 +33,11 @@ namespace Chatman
 
             return true;
         }
+
+        public void ChangeUsername(string newUsername)
+        {
+            //TODO: Validation
+            Username = newUsername;
+        }
     }
 }

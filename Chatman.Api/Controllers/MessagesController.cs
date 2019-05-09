@@ -12,10 +12,12 @@ namespace Chatman.Api.Controllers
     public class MessagesController : ControllerBase
     {
         private readonly IRepository<Message> messageRepo;
+        private readonly IRepository<Conversation> convRepo;
 
-        public MessagesController(IRepository<Message> messageRepo)
+        public MessagesController(IRepository<Message> messageRepo,IRepository<Conversation> convRepo)
         {
             this.messageRepo = messageRepo;
+            this.convRepo = convRepo;
         }
 
         [HttpGet]
@@ -80,6 +82,13 @@ namespace Chatman.Api.Controllers
 
             var messageToBeAdded = new Message(new UserId(message.AuthorId),
                 new ConversationId(message.ConvId), message.Text);
+
+            Conversation conv = convRepo.GetById(new ConversationId(message.ConvId));
+
+            if (conv.BlockedUsersIds.Any(x => x.Value == message.AuthorId))
+            {
+                return BadRequest("Blocked users cannot send messages");
+            }
 
             messageRepo.Add(messageToBeAdded);
 

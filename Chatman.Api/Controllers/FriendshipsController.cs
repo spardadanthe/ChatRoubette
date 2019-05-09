@@ -25,7 +25,7 @@ namespace Chatman.Api.Controllers
         {
             IEnumerable<Friendship> friendships = friendshipsRepo.GetAll();
 
-            if (friendships is null || friendships.Any())
+            if (friendships is null || friendships.Any() == false)
                 return NotFound("There are no friendships");
 
             List<FriendshipResponseModel> response = ListFriendshipModelConverter(friendships);

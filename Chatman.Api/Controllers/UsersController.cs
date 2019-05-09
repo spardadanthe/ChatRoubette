@@ -59,7 +59,7 @@ namespace Chatman.Api.Controllers
 
             User user = usersRepository.GetAll().FirstOrDefault(x => x.Username == username);
 
-            if (user is null) return BadRequest("There is no user with that username");;
+            if (user is null) return BadRequest("There is no user with that username"); ;
 
             UserResponseModel response = new UserResponseModel(user);
 
