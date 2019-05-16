@@ -32,13 +32,28 @@ namespace Chatman.Api.Controllers
             return Ok(response);
         }
 
+        
+        [HttpGet]
+        [Route("user/{id}")]
+        public ActionResult<ICollection<ConversationResponseModel>> GetConvForUser(string id)
+        {
+            IEnumerable<Conversation> convForCurrentUser = convRepository.GetAll()
+                .Where(x => x.UsersParticipatingIds.Any(y => y.Value == id) && x.BlockedUsersIds.Any(z => z.Value == id) == false);
+
+            if (convForCurrentUser is null) return NotFound("There are currently no conversations");
+
+            List<ConversationResponseModel> response = ListConvResponseModelConverter(convForCurrentUser);
+
+            return Ok(response);
+        }
+
         [HttpGet]
         [Route("{id}")]
         public ActionResult<ConversationResponseModel> GetById(string id)
         {
             Conversation conversation = convRepository.GetById(new BaseId(id));
 
-            if (conversation is null) return NotFound("Converastion not found");
+            if (conversation is null) return NotFound("Conversation not found");
 
             ConversationResponseModel response = new ConversationResponseModel(conversation);
 

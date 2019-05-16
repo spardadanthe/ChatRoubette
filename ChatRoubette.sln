@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Client\Client.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chatman.Persistence.EF", "Chatman.Persistence.EF\Chatman.Persistence.EF.csproj", "{FE27F585-5FAD-4749-B962-E3E3C8B8DA7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chatman.Persistence.EFDatabaseFiirst.cs", "Chatman.Persistence.EFDatabaseFiirst.cs\Chatman.Persistence.EFDatabaseFiirst.cs.csproj", "{6BCA2B8A-841E-4756-903B-33B0B34396D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chatman.Persistence.EFDatabaseFiirst.cs", "Chatman.Persistence.EFDatabaseFiirst.cs\Chatman.Persistence.EFDatabaseFiirst.cs.csproj", "{6BCA2B8A-841E-4756-903B-33B0B34396D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
