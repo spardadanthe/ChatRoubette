@@ -1,0 +1,121 @@
+﻿@model Chatman.Conversation
+@{
+    ViewData["Title"] = "View";
+}
+<ul class="list-group" id="messages">
+
+</ul>
+<br />
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Message</span>
+    </div>
+    <input type="text" id="message" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+</div>
+<button type="button" onclick="sendMessage()" class="btn btn-primary">Send Message</button>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        loadMessages();
+
+        console.log(localStorage.getItem("currentConv"));
+    });
+
+    function sendMessage() {
+
+
+        $.ajax({
+            contentType: "application/json",
+            type: "GET",
+            url: "https://localhost:44385/api/Conversations/" + localStorage.getItem("currentConv"),
+            success: function (result) {
+                var text = $("#message").val();
+                var currentUser = localStorage.getItem("currentUser");
+                currentUser = JSON.parse(currentUser);
+                var message = {
+                    "sender": currentUser,
+                    "text": text,
+                    "conversationId": {
+                        "value": localStorage.getItem("currentConv")
+                    }
+                };
+                if (result.history == []) {
+                    result.history.push(message);
+                }
+                else {
+                    result.history.push(message);
+                }
+
+                $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    type: 'POST',
+                    url: 'https://localhost:44385/api/Conversations/',
+                    data: JSON.stringify(result),
+                    dataType: "json",
+                    success: function () {
+
+                    },
+                    error: function (err) {
+                        //console.log(err);
+                    }
+                });
+                $("#message").val("");
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+        
+    }
+
+
+    function loadMessages() {
+        $.ajax({
+            contentType: "application/json",
+            type: "GET",
+            url: "https://localhost:44385/api/Conversations/" + localStorage.getItem("currentConv"),
+            success: function (result) {
+                var list = document.getElementById("messages");
+                list.innerHTML = "";
+                for (var i = 0; i < result.history.length; i++) {
+                    var li = document.createElement("li");
+                    var span = document.createElement("span");
+                    li.setAttribute("class", "list-group-item d-flex justify-content-between align-items-center")
+                    span.setAttribute("class", "badge badge-primary badge-pill");
+
+                    //var textNode = document.createTextNode(result.history[i]["sender"]["username"]);
+                    span.textContent = result.history[i]["sender"]["username"];
+                    //span.appendChild(textNode);
+
+                    //var textNode2 = document.createTextNode(result.history[i]["text"]);
+                    li.textContent = result.history[i]["text"];
+                    li.append(span);
+                                        
+                    list.appendChild(li);
+
+                    //var select = document.getElementById("friendList");
+                    //select.innerHTML = "";
+                    //for (var i = 0; i < result.length; i++) {
+                    //    var option = document.createElement("option");
+                    //    option.value = result[i]["id"]["value"];
+                    //    option.text = result[i]["username"];
+                    //    select.appendChild(option);
+                    //}
+                }
+
+                setTimeout(function () {
+                    loadMessages();
+                }, 300);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+</script>
+<h1>View</h1>
+

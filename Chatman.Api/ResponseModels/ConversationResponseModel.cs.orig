@@ -1,0 +1,26 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Chatman.Api.ResponseModels
+{
+    public class ConversationResponseModel
+    {
+        public ConversationResponseModel(string id,string ownerId,
+            IEnumerable<string> blockedUsersIds, IEnumerable<string> usersparticipatingIds)
+        {
+            Id = id;
+            OwnerId = ownerId;
+<<<<<<< HEAD
+            BlockedUsersIds = blockedUsersIds;
+=======
+            BlockedUsersIds = blockedUsersIds.Select(x=>x + "asdf");
+>>>>>>> 56e9057fbb51f0de5ff2d668202e52f312e478c7
+            UsersParticipatingIds = usersparticipatingIds;
+        }
+
+        public string Id { get; private set; }
+        public string OwnerId { get; private set; }
+        public IEnumerable<string> BlockedUsersIds { get; private set; }
+        public IEnumerable<string> UsersParticipatingIds { get; private set; }
+    }
+}
